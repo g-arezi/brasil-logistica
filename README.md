@@ -26,6 +26,7 @@ Esqueleto completo em Laravel 11 com DDD Lite para marketplace de fretes, com fo
 - `FreightObserver`: dispara `SendFreightWebhookJob` para n8n (fila).
 - API em `routes/api.php` com `GET /api/v1/freights` e `POST /api/v1/freights`.
 - Livewire `FreightBoard` em tempo real com Reverb.
+- Autenticacao com Laravel Breeze e redirecionamento por perfil (`driver`/`company`).
 
 ## Configuracao rapida
 
@@ -33,6 +34,7 @@ Esqueleto completo em Laravel 11 com DDD Lite para marketplace de fretes, com fo
 cp .env.example .env
 php artisan key:generate
 npm install
+composer install
 ```
 
 Ajuste as variaveis de banco no `.env` para PostgreSQL/PostGIS e rode:
@@ -44,6 +46,37 @@ php artisan reverb:start
 php artisan serve
 npm run dev
 ```
+
+## Docker (PostgreSQL + PostGIS + Redis + Reverb)
+
+Arquivos base prontos em `docker-compose.yml` e `docker/php/Dockerfile`.
+
+```bash
+cp .env.example .env
+docker compose run --rm app composer install
+docker compose run --rm app php artisan key:generate
+docker compose up -d --build
+docker compose exec app php artisan migrate
+```
+
+Detalhes em `docker/README.md`.
+
+## Auth e perfis
+
+- Registro captura `profile_type` (`driver`/`company`) e `document_number` (CPF/CNPJ).
+- `GET /dashboard` redireciona automaticamente por perfil.
+- Rotas protegidas por perfil:
+  - `company.dashboard` em `/painel/empresa`
+  - `driver.dashboard` em `/painel/motorista`
+
+## CI no GitHub Actions
+
+Pipeline em `.github/workflows/ci.yml` executa:
+
+- `composer validate --strict`
+- `./vendor/bin/pint --test`
+- `php artisan test`
+- `npm run build`
 
 ## Testes
 
