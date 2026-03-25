@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domains\Freight\Services;
 
 use Illuminate\Support\Facades\Http;
+use Throwable;
 
 final class MapboxDistanceService implements DistanceServiceInterface
 {
@@ -21,11 +22,18 @@ final class MapboxDistanceService implements DistanceServiceInterface
 
         $coordinates = sprintf('%F,%F;%F,%F', $originLng, $originLat, $destinationLng, $destinationLat);
 
-        $response = Http::baseUrl((string) config('services.mapbox.base_url'))
-            ->get("directions/v5/mapbox/driving/{$coordinates}", [
-                'access_token' => $token,
-                'overview' => 'false',
-            ]);
+        try {
+            $response = Http::baseUrl((string) config('services.mapbox.base_url'))
+                ->timeout(5)
+                ->connectTimeout(3)
+                ->retry(2, 200)
+                ->get("directions/v5/mapbox/driving/{$coordinates}", [
+                    'access_token' => $token,
+                    'overview' => 'false',
+                ]);
+        } catch (Throwable) {
+            return $this->estimateFallback($originLat, $originLng, $destinationLat, $destinationLng);
+        }
 
         if (! $response->successful()) {
             return $this->estimateFallback($originLat, $originLng, $destinationLat, $destinationLng);
@@ -63,4 +71,3 @@ final class MapboxDistanceService implements DistanceServiceInterface
         ];
     }
 }
-

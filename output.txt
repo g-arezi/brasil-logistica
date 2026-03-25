@@ -1,0 +1,141 @@
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	new file:   app/Domains/Chat/Actions/SendChatMessageAction.php
+	new file:   app/Domains/Chat/Enums/ChatThreadStatus.php
+	new file:   app/Domains/Chat/Events/ChatMessageSent.php
+	new file:   app/Domains/Chat/Models/ChatMessage.php
+	new file:   app/Domains/Chat/Models/ChatThread.php
+	new file:   app/Domains/Freight/Pipelines/Filters/DestinationLocationFilter.php
+	new file:   app/Domains/Freight/Pipelines/Filters/OriginLocationFilter.php
+	new file:   app/Domains/Support/Actions/OpenSupportTicketAction.php
+	new file:   app/Domains/Support/Enums/SupportTicketPriority.php
+	new file:   app/Domains/Support/Enums/SupportTicketStatus.php
+	new file:   app/Domains/Support/Events/SupportTicketUpdated.php
+	new file:   app/Domains/Support/Models/SupportTicket.php
+	new file:   app/Domains/Support/Models/SupportTicketMessage.php
+	new file:   app/Livewire/ChatCenter.php
+	new file:   app/Livewire/OpsOverview.php
+	new file:   app/Livewire/SupportCenter.php
+	new file:   app/Policies/ChatThreadPolicy.php
+	new file:   app/Policies/SupportTicketPolicy.php
+	new file:   app/Support/BrazilLocations.php
+	new file:   database/factories/FreightFactory.php
+	new file:   database/migrations/2026_03_24_100100_create_chat_threads_table.php
+	new file:   database/migrations/2026_03_24_100200_create_chat_participants_table.php
+	new file:   database/migrations/2026_03_24_100300_create_chat_messages_table.php
+	new file:   database/migrations/2026_03_24_100400_create_support_tickets_table.php
+	new file:   database/migrations/2026_03_24_100500_create_support_ticket_messages_table.php
+	new file:   database/migrations/2026_03_24_100600_add_attachments_to_chat_and_support_messages.php
+	new file:   database/migrations/2026_03_24_100700_add_sla_fields_to_support_tickets.php
+	new file:   resources/views/chat-page.blade.php
+	new file:   resources/views/dashboards/admin.blade.php
+	new file:   resources/views/dashboards/agenciador.blade.php
+	new file:   resources/views/dashboards/freightista.blade.php
+	new file:   resources/views/dashboards/transportadora.blade.php
+	new file:   resources/views/livewire/chat-center.blade.php
+	new file:   resources/views/livewire/ops-overview.blade.php
+	new file:   resources/views/livewire/post-freight.blade.php
+	new file:   resources/views/livewire/support-center.blade.php
+	new file:   resources/views/ops-page.blade.php
+	new file:   resources/views/support-page.blade.php
+	new file:   tests/Feature/ChatAndSupportAccessTest.php
+	new file:   tests/Feature/ChatAndSupportFlowTest.php
+	new file:   tests/Feature/FreightApiSecurityTest.php
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   .env.example
+	modified:   README.md
+	modified:   app/Domains/Chat/Actions/SendChatMessageAction.php
+	modified:   app/Domains/Chat/Models/ChatMessage.php
+	modified:   app/Domains/Freight/DataTransferObjects/FreightFilterData.php
+	modified:   app/Domains/Freight/Http/Controllers/Api/FreightController.php
+	modified:   app/Domains/Freight/Models/Freight.php
+	modified:   app/Domains/Freight/Pipelines/Filters/OriginLocationFilter.php
+	modified:   app/Domains/Freight/Pipelines/FreightFilterPipeline.php
+	modified:   app/Domains/Freight/Services/MapboxDistanceService.php
+	modified:   app/Domains/Support/Actions/OpenSupportTicketAction.php
+	modified:   app/Domains/Support/Enums/SupportTicketPriority.php
+	modified:   app/Domains/Support/Enums/SupportTicketStatus.php
+	modified:   app/Domains/Support/Models/SupportTicket.php
+	modified:   app/Domains/Support/Models/SupportTicketMessage.php
+	modified:   app/Domains/User/Enums/UserProfileType.php
+	modified:   app/Domains/User/Models/User.php
+	modified:   app/Domains/User/Services/BrasilApiDocumentValidationService.php
+	modified:   app/Http/Controllers/Auth/RegisteredUserController.php
+	modified:   app/Http/Middleware/EnsureUserProfile.php
+	modified:   app/Http/Requests/Auth/LoginRequest.php
+	modified:   app/Livewire/ChatCenter.php
+	modified:   app/Livewire/FreightBoard.php
+	modified:   app/Livewire/OpsOverview.php
+	modified:   app/Livewire/SupportCenter.php
+	modified:   app/Providers/AppServiceProvider.php
+	modified:   app/Support/BrazilLocations.php
+	modified:   config/reverb.php
+	modified:   database/factories/FreightFactory.php
+	modified:   database/factories/UserFactory.php
+	modified:   database/migrations/2026_03_24_100300_create_chat_messages_table.php
+	modified:   database/seeders/DatabaseSeeder.php
+	modified:   docker-compose.yml
+	modified:   docker/php/Dockerfile
+	modified:   phpunit.xml
+	modified:   resources/views/auth/confirm-password.blade.php
+	modified:   resources/views/auth/forgot-password.blade.php
+	modified:   resources/views/auth/login.blade.php
+	modified:   resources/views/auth/register.blade.php
+	modified:   resources/views/auth/verify-email.blade.php
+	modified:   resources/views/chat-page.blade.php
+	modified:   resources/views/components/dropdown-link.blade.php
+	modified:   resources/views/components/dropdown.blade.php
+	modified:   resources/views/components/modal.blade.php
+	modified:   resources/views/components/nav-link.blade.php
+	modified:   resources/views/components/responsive-nav-link.blade.php
+	modified:   resources/views/components/secondary-button.blade.php
+	modified:   resources/views/components/text-input.blade.php
+	modified:   resources/views/dashboard.blade.php
+	modified:   resources/views/dashboards/admin.blade.php
+	modified:   resources/views/dashboards/agenciador.blade.php
+	modified:   resources/views/dashboards/company.blade.php
+	modified:   resources/views/dashboards/driver.blade.php
+	modified:   resources/views/dashboards/freightista.blade.php
+	modified:   resources/views/dashboards/transportadora.blade.php
+	modified:   resources/views/freight-board-page.blade.php
+	modified:   resources/views/layouts/app.blade.php
+	modified:   resources/views/layouts/guest.blade.php
+	modified:   resources/views/layouts/navigation.blade.php
+	modified:   resources/views/livewire/chat-center.blade.php
+	modified:   resources/views/livewire/freight-board.blade.php
+	modified:   resources/views/livewire/ops-overview.blade.php
+	modified:   resources/views/livewire/support-center.blade.php
+	modified:   resources/views/profile/edit.blade.php
+	modified:   resources/views/profile/partials/delete-user-form.blade.php
+	modified:   resources/views/profile/partials/update-password-form.blade.php
+	modified:   resources/views/profile/partials/update-profile-information-form.blade.php
+	modified:   resources/views/support-page.blade.php
+	modified:   resources/views/welcome.blade.php
+	modified:   routes/api.php
+	modified:   routes/channels.php
+	modified:   routes/web.php
+	modified:   tailwind.config.js
+	modified:   tests/Feature/Auth/RegistrationTest.php
+	modified:   tests/Feature/ChatAndSupportAccessTest.php
+	modified:   tests/Feature/ChatAndSupportFlowTest.php
+	modified:   tests/Feature/FreightApiSecurityTest.php
+	modified:   tests/Feature/FreightSearchRadiusTest.php
+	modified:   tests/Feature/ProfileAccessTest.php
+	modified:   tests/TestCase.php
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.env.testing
+	app/Livewire/PostFreight.php
+	cookies.txt
+	database/migrations/2026_03_25_154444_add_details_to_freights_table.php
+	error.txt
+	git_remote.txt
+	output.txt
+	"resources/views/components/\342\232\241post-freight.blade.php"
+	test_mw.php
+

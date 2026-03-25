@@ -6,7 +6,12 @@ namespace App\Domains\User\Models;
 
 use App\Domains\User\Enums\UserProfileType;
 use App\Domains\Vehicle\Models\Vehicle;
+use App\Domains\Chat\Models\ChatMessage;
+use App\Domains\Chat\Models\ChatThread;
+use App\Domains\Support\Models\SupportTicket;
+use App\Domains\Support\Models\SupportTicketMessage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -62,6 +67,28 @@ class User extends Authenticatable
     public function vehicles(): HasMany
     {
         return $this->hasMany(Vehicle::class, 'company_id');
+    }
+
+    public function chatThreads(): BelongsToMany
+    {
+        return $this->belongsToMany(ChatThread::class, 'chat_participants', 'user_id', 'thread_id')
+            ->withPivot('last_read_at')
+            ->withTimestamps();
+    }
+
+    public function chatMessages(): HasMany
+    {
+        return $this->hasMany(ChatMessage::class, 'sender_id');
+    }
+
+    public function supportTickets(): HasMany
+    {
+        return $this->hasMany(SupportTicket::class, 'owner_id');
+    }
+
+    public function supportMessages(): HasMany
+    {
+        return $this->hasMany(SupportTicketMessage::class, 'sender_id');
     }
 }
 

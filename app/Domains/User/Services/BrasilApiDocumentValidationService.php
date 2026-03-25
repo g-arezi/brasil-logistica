@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domains\User\Services;
 
 use Illuminate\Support\Facades\Http;
+use Throwable;
 
 final class BrasilApiDocumentValidationService implements DocumentValidationServiceInterface
 {
@@ -25,18 +26,31 @@ final class BrasilApiDocumentValidationService implements DocumentValidationServ
 
     private function validateCpf(string $cpf): bool
     {
-        $response = Http::baseUrl((string) config('services.document_validator.base_url'))
-            ->get("cpf/v1/{$cpf}");
+        try {
+            $response = Http::baseUrl((string) config('services.document_validator.base_url'))
+                ->timeout(5)
+                ->connectTimeout(3)
+                ->retry(1, 200)
+                ->get("cpf/v1/{$cpf}");
+        } catch (Throwable) {
+            return false;
+        }
 
         return $response->successful() && (bool) data_get($response->json(), 'is_valid', false);
     }
 
     private function validateCnpj(string $cnpj): bool
     {
-        $response = Http::baseUrl((string) config('services.document_validator.base_url'))
-            ->get("cnpj/v1/{$cnpj}");
+        try {
+            $response = Http::baseUrl((string) config('services.document_validator.base_url'))
+                ->timeout(5)
+                ->connectTimeout(3)
+                ->retry(1, 200)
+                ->get("cnpj/v1/{$cnpj}");
+        } catch (Throwable) {
+            return false;
+        }
 
         return $response->successful() && ! empty(data_get($response->json(), 'cnpj'));
     }
 }
-

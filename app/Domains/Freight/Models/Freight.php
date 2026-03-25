@@ -59,6 +59,7 @@ class Freight extends Model
         'destination_point',
         'distance_km',
         'estimated_minutes',
+        'details',
     ];
 
     /**
@@ -76,6 +77,11 @@ class Freight extends Model
         'destination_lng' => 'float',
         'distance_km' => 'float',
     ];
+
+    protected static function newFactory()
+    {
+        return \Database\Factories\FreightFactory::new();
+    }
 
     public function company(): BelongsTo
     {

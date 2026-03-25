@@ -6,6 +6,8 @@ namespace App\Domains\Freight\Pipelines;
 
 use App\Domains\Freight\DataTransferObjects\FreightFilterData;
 use App\Domains\Freight\Models\Freight;
+use App\Domains\Freight\Pipelines\Filters\DestinationLocationFilter;
+use App\Domains\Freight\Pipelines\Filters\OriginLocationFilter;
 use App\Domains\Freight\Pipelines\Filters\PriceRangeFilter;
 use App\Domains\Freight\Pipelines\Filters\RadiusFilter;
 use App\Domains\Freight\Pipelines\Filters\VehicleTypeFilter;
@@ -27,6 +29,8 @@ final class FreightFilterPipeline
             ->send($builder)
             ->through([
                 new RadiusFilter($filters),
+                new OriginLocationFilter($filters),
+                new DestinationLocationFilter($filters),
                 new VehicleTypeFilter($filters),
                 new PriceRangeFilter($filters),
             ])

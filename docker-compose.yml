@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   app:
     build:
@@ -11,6 +9,10 @@ services:
       - ./:/var/www/html
     env_file:
       - .env
+    environment:
+      DB_HOST: postgres
+      REDIS_HOST: redis
+      REVERB_HOST: reverb
     depends_on:
       - postgres
       - redis
@@ -28,6 +30,10 @@ services:
       - ./:/var/www/html
     env_file:
       - .env
+    environment:
+      DB_HOST: postgres
+      REDIS_HOST: redis
+      REVERB_HOST: 0.0.0.0
     depends_on:
       - app
       - redis
@@ -45,6 +51,10 @@ services:
       - ./:/var/www/html
     env_file:
       - .env
+    environment:
+      DB_HOST: postgres
+      REDIS_HOST: redis
+      REVERB_HOST: reverb
     depends_on:
       - app
       - redis

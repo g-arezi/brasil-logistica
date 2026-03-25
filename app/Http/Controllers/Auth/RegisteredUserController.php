@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
+use App\Domains\User\Enums\UserProfileType;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -33,13 +36,19 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'profile_type' => ['required', 'in:driver,transportadora,agenciador'],
+            'document_number' => ['required', 'string', 'max:18', 'unique:'.User::class.',document_number'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $profileType = UserProfileType::from((string) $request->string('profile_type'));
+
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'name' => (string) $request->string('name'),
+            'email' => (string) $request->string('email'),
             'password' => Hash::make($request->password),
+            'profile_type' => $profileType,
+            'document_number' => $this->normalizeDocument((string) $request->string('document_number')),
         ]);
 
         event(new Registered($user));
@@ -47,5 +56,10 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect(route('dashboard', absolute: false));
+    }
+
+    private function normalizeDocument(string $value): string
+    {
+        return preg_replace('/\D+/', '', $value) ?? '';
     }
 }

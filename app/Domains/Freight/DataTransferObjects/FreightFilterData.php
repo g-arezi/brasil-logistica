@@ -18,6 +18,10 @@ final class FreightFilterData extends Data
         public readonly int $radiusKm,
         public readonly ?int $minPriceCents,
         public readonly ?int $maxPriceCents,
+        public readonly ?string $originState,
+        public readonly ?string $originCity,
+        public readonly ?string $destinationState,
+        public readonly ?string $destinationCity,
         public readonly array $vehicleTypes = [],
     ) {
     }
@@ -38,8 +42,23 @@ final class FreightFilterData extends Data
             radiusKm: (int) ($payload['radius_km'] ?? 50),
             minPriceCents: isset($payload['min_price_cents']) ? (int) $payload['min_price_cents'] : null,
             maxPriceCents: isset($payload['max_price_cents']) ? (int) $payload['max_price_cents'] : null,
+            originState: self::sanitizeLocationInput($payload['origin_state'] ?? null),
+            originCity: self::sanitizeLocationInput($payload['origin_city'] ?? null),
+            destinationState: self::sanitizeLocationInput($payload['destination_state'] ?? null),
+            destinationCity: self::sanitizeLocationInput($payload['destination_city'] ?? null),
             vehicleTypes: $types,
         );
+    }
+
+    private static function sanitizeLocationInput(mixed $value): ?string
+    {
+        if (! is_string($value)) {
+            return null;
+        }
+
+        $trimmed = trim($value);
+
+        return $trimmed === '' ? null : $trimmed;
     }
 }
 
