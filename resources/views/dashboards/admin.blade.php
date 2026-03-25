@@ -7,7 +7,7 @@
 
     <div class="py-8">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="rounded-lg bg-slate-900 border-slate-800 text-slate-100 p-6 shadow-sm">
+            <div class="rounded-lg bg-slate-900 border-slate-800 text-slate-100 p-6 shadow-sm mb-6">
                 <p class="text-gray-700">
                     Area administrativa: governanca do sistema, suporte operacional e visao global da plataforma.
                 </p>
@@ -20,6 +20,8 @@
                     </a>
                 </div>
             </div>
+
+            <livewire:admin-user-management />
         </div>
     </div>
 </x-app-layout>

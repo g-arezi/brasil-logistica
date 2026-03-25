@@ -11,7 +11,7 @@
                         Voltar para home
                     </a>
                     @auth
-                        @if (in_array(auth()->user()->profile_type?->value, ['transportadora', 'agenciador', 'company', 'freightista']))
+                        @if (in_array(auth()->user()->profile_type?->value, ['transportadora', 'agenciador', 'company', 'freightista', 'admin']))
                             <a href="{{ route('freights.create') }}" class="inline-flex items-center rounded-lg bg-cyan-600 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-cyan-900/50 hover:bg-cyan-500 transition">
                                 + Postar Novo Frete
                             </a>
@@ -214,7 +214,12 @@
                         Fechar
                     </button>
                     @auth
-                        @if ($selectedFreight->company_id === auth()->id())
+                        @if ($selectedFreight->company_id === auth()->id() || auth()->user()->profile_type?->value === 'admin')
+                            <button type="button"
+                                wire:click="startEdit('{{ $selectedFreight->id }}'); closeDetails();"
+                                class="px-4 py-2 rounded-lg bg-emerald-600/90 text-white font-medium hover:bg-emerald-600 transition">
+                                Editar
+                            </button>
                             <button type="button"
                                 wire:click="deleteFreight('{{ $selectedFreight->id }}'); closeDetails();"
                                 wire:confirm="Tem certeza que deseja excluir este frete?"
@@ -232,6 +237,71 @@
                         </a>
                     @endauth
                 </div>
+            </div>
+        </div>
+    @endif
+
+    @if($showingEdit && $editingFreight)
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+            <div class="w-full max-w-2xl rounded-2xl bg-slate-900 p-6 shadow-2xl border border-slate-700 max-h-[90vh] overflow-y-auto">
+                <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-4">
+                    <h3 class="text-xl font-bold text-slate-100">Editar Frete</h3>
+                    <button wire:click="closeEdit" class="text-slate-400 hover:text-slate-200 text-2xl">&times;</button>
+                </div>
+
+                <form wire:submit.prevent="saveEdit" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300">Cidade Origem</label>
+                            <input type="text" wire:model="edit_origin_city" class="mt-1 block w-full rounded-md border-slate-700 bg-slate-950 text-slate-100" required>
+                            @error('edit_origin_city') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300">Estado Origem (UF)</label>
+                            <input type="text" wire:model="edit_origin_state" maxlength="2" class="mt-1 block w-full rounded-md border-slate-700 bg-slate-950 text-slate-100" required>
+                            @error('edit_origin_state') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300">Cidade Destino</label>
+                            <input type="text" wire:model="edit_destination_city" class="mt-1 block w-full rounded-md border-slate-700 bg-slate-950 text-slate-100" required>
+                            @error('edit_destination_city') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300">Estado Destino (UF)</label>
+                            <input type="text" wire:model="edit_destination_state" maxlength="2" class="mt-1 block w-full rounded-md border-slate-700 bg-slate-950 text-slate-100" required>
+                            @error('edit_destination_state') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300">Preco (R$)</label>
+                            <input type="number" step="0.01" wire:model="edit_price" class="mt-1 block w-full rounded-md border-slate-700 bg-slate-950 text-slate-100" required>
+                            @error('edit_price') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300">Tipo de Veiculo</label>
+                            <select wire:model="edit_required_vehicle_type" class="mt-1 block w-full rounded-md border-slate-700 bg-slate-950 text-slate-100" required>
+                                @foreach($vehicleOptions as $option)
+                                    <option value="{{ $option->value }}">{{ strtoupper($option->value) }}</option>
+                                @endforeach
+                            </select>
+                            @error('edit_required_vehicle_type') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300">Detalhes / Observacoes</label>
+                        <textarea wire:model="edit_details" rows="3" class="mt-1 block w-full rounded-md border-slate-700 bg-slate-950 text-slate-100"></textarea>
+                        @error('edit_details') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
+                    </div>
+
+                    <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-slate-800">
+                        <button type="button" wire:click="closeEdit" class="px-4 py-2 rounded-lg border border-slate-700 text-slate-200 hover:bg-slate-800 transition">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="px-4 py-2 rounded-lg bg-emerald-600/90 text-white font-medium hover:bg-emerald-600 transition">
+                            Salvar Alteracoes
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     @endif

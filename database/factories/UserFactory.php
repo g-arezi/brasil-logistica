@@ -30,6 +30,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'profile_type' => fake()->randomElement(['driver', 'transportadora', 'agenciador']),
+            'status' => fn (array $attributes) => isset($attributes['profile_type']) && $attributes['profile_type'] === 'admin' ? 'approved' : 'pending',
             'document_number' => fake()->unique()->numerify('###########'),
             'remember_token' => Str::random(10),
         ];

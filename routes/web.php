@@ -74,7 +74,7 @@ Route::middleware(['auth', 'verified', 'profile:driver,transportadora,agenciador
     Route::view('/suporte', 'support-page')->name('support.index');
 });
 
-Route::middleware(['auth', 'verified', 'profile:transportadora,agenciador,company,freightista'])->group(function (): void {
+Route::middleware(['auth', 'verified', 'profile:transportadora,agenciador,company,freightista,admin'])->group(function (): void {
     Route::get('/fretes/novo', PostFreight::class)->name('freights.create');
 });
 

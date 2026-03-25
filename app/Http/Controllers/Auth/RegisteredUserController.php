@@ -53,9 +53,11 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
+        // Note: Status will default to 'pending' from database migration.
+        // We shouldn't log them in automatically because pending users are blocked.
+        return redirect()->route('login')->withErrors([
+            'email' => 'Cadastro realizado. Sua conta esta pendente de aprovacao. Aguarde a liberacao do administrador.',
+        ]);
     }
 
     private function normalizeDocument(string $value): string

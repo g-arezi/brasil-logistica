@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use App\Domains\User\Enums\UserStatus;
 
 class LoginRequest extends FormRequest
 {
@@ -56,6 +57,24 @@ class LoginRequest extends FormRequest
 
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
+            ]);
+        }
+
+        $user = Auth::user();
+
+        if ($user && ($user->status === UserStatus::Rejected || $user->status === 'rejected')) {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'email' => 'Sua conta foi reprovada. Entre em contato com a administracao.',
+            ]);
+        }
+
+        if ($user && ($user->status === UserStatus::Pending || $user->status === 'pending')) {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'email' => 'Sua conta esta pendente de aprovacao. Aguarde a liberacao do administrador.',
             ]);
         }
 

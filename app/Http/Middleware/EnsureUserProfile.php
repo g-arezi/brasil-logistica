@@ -7,6 +7,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Domains\User\Enums\UserStatus;
 
 final class EnsureUserProfile
 {
@@ -19,6 +20,22 @@ final class EnsureUserProfile
 
         if ($user === null) {
             abort(401);
+        }
+
+        if ($user->status === UserStatus::Rejected || $user->status === 'rejected') {
+            auth()->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            abort(403, 'Sua conta foi reprovada. Entre em contato com a administracao.');
+        }
+
+        if ($user->status === UserStatus::Pending || $user->status === 'pending') {
+            auth()->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            abort(403, 'Sua conta esta pendente de aprovacao. Aguarde a liberacao do administrador.');
         }
 
         if ($user->profile_type?->value === 'admin') {

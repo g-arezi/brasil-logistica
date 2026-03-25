@@ -9,6 +9,7 @@ use App\Domains\Chat\Models\ChatThread;
 use App\Domains\Support\Models\SupportTicket;
 use App\Domains\Support\Models\SupportTicketMessage;
 use App\Domains\User\Enums\UserProfileType;
+use App\Domains\User\Enums\UserStatus;
 use App\Domains\Vehicle\Models\Vehicle;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,6 +24,7 @@ use Illuminate\Support\Carbon;
  * @property string $name
  * @property string $email
  * @property string $password
+ * @property UserStatus $status
  * @property UserProfileType $profile_type
  * @property string|null $document_number
  * @property Carbon|null $document_verified_at
@@ -41,6 +43,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'status',
         'profile_type',
         'document_number',
         'document_verified_at',
@@ -62,6 +65,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'status' => UserStatus::class,
             'profile_type' => UserProfileType::class,
             'document_verified_at' => 'datetime',
         ];

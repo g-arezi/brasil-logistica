@@ -13,6 +13,7 @@ it('allows authenticated operational profiles to access chat and support', funct
     $user = User::factory()->create([
         'profile_type' => 'driver',
         'document_number' => '32165498700',
+        'status' => 'approved',
     ]);
 
     $this->actingAs($user)->get('/chat')->assertOk();
