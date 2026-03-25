@@ -13,7 +13,7 @@ use Illuminate\Validation\ValidationException;
 final class SendChatMessageAction
 {
     /**
-     * @param array<string, mixed> $attachment
+     * @param  array<string, mixed>  $attachment
      */
     public function execute(ChatThread $thread, User $sender, string $messageText, array $attachment = []): ChatMessage
     {
@@ -45,5 +45,3 @@ final class SendChatMessageAction
         return $message;
     }
 }
-
-

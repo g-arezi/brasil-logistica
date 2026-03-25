@@ -6,6 +6,4 @@ namespace App\Models;
 
 use App\Domains\User\Models\User as DomainUser;
 
-class User extends DomainUser
-{
-}
+class User extends DomainUser {}

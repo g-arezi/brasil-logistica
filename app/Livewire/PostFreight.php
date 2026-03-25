@@ -1,18 +1,28 @@
 <?php
+
 namespace App\Livewire;
+
+use App\Domains\Freight\Enums\FreightStatus;
 use App\Domains\Freight\Models\Freight;
 use App\Domains\Vehicle\Enums\VehicleType;
-use App\Domains\Freight\Enums\FreightStatus;
 use Livewire\Component;
+
 class PostFreight extends Component
 {
     public string $origin_city = '';
+
     public string $origin_state = '';
+
     public string $destination_city = '';
+
     public string $destination_state = '';
+
     public string $required_vehicle_type = '';
+
     public float $price = 0.0;
+
     public string $details = '';
+
     protected function rules()
     {
         return [
@@ -20,11 +30,12 @@ class PostFreight extends Component
             'origin_state' => 'required|string|size:2',
             'destination_city' => 'required|string|max:255',
             'destination_state' => 'required|string|size:2',
-            'required_vehicle_type' => 'required|string|in:' . implode(',', array_column(VehicleType::cases(), 'value')),
+            'required_vehicle_type' => 'required|string|in:'.implode(',', array_column(VehicleType::cases(), 'value')),
             'price' => 'required|numeric|min:1',
             'details' => 'nullable|string',
         ];
     }
+
     public function save()
     {
         $this->validate();
@@ -59,8 +70,10 @@ class PostFreight extends Component
         Freight::create($payload);
 
         session()->flash('success', 'Frete publicado com sucesso!');
+
         return redirect()->route('freights.board');
     }
+
     public function render()
     {
         return view('livewire.post-freight', [

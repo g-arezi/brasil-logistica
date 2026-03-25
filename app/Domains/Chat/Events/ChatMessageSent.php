@@ -15,9 +15,7 @@ final class ChatMessageSent implements ShouldBroadcast
     use Dispatchable;
     use SerializesModels;
 
-    public function __construct(public readonly ChatMessage $message)
-    {
-    }
+    public function __construct(public readonly ChatMessage $message) {}
 
     public function broadcastOn(): array
     {
@@ -43,4 +41,3 @@ final class ChatMessageSent implements ShouldBroadcast
         ];
     }
 }
-

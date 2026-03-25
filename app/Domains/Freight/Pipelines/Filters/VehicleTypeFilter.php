@@ -10,12 +10,10 @@ use Illuminate\Database\Eloquent\Builder;
 
 final class VehicleTypeFilter
 {
-    public function __construct(private readonly FreightFilterData $filters)
-    {
-    }
+    public function __construct(private readonly FreightFilterData $filters) {}
 
     /**
-     * @param Closure(Builder): Builder $next
+     * @param  Closure(Builder): Builder  $next
      */
     public function handle(Builder $builder, Closure $next): Builder
     {
@@ -29,4 +27,3 @@ final class VehicleTypeFilter
         return $next($builder);
     }
 }
-

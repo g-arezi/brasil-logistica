@@ -106,4 +106,3 @@ it('filtra fretes por estado e cidade de origem e destino', function (): void {
         ->assertJsonPath('data.0.origin_state', 'SP')
         ->assertJsonPath('data.0.destination_state', 'PR');
 });
-

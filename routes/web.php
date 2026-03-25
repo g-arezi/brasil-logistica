@@ -2,6 +2,7 @@
 
 use App\Domains\User\Enums\UserProfileType;
 use App\Http\Controllers\ProfileController;
+use App\Livewire\PostFreight;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -74,7 +75,7 @@ Route::middleware(['auth', 'verified', 'profile:driver,transportadora,agenciador
 });
 
 Route::middleware(['auth', 'verified', 'profile:transportadora,agenciador,company,freightista'])->group(function (): void {
-    Route::get('/fretes/novo', \App\Livewire\PostFreight::class)->name('freights.create');
+    Route::get('/fretes/novo', PostFreight::class)->name('freights.create');
 });
 
 Route::middleware('auth')->group(function () {

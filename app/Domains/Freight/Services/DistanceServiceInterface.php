@@ -11,4 +11,3 @@ interface DistanceServiceInterface
      */
     public function estimate(float $originLat, float $originLng, float $destinationLat, float $destinationLng): array;
 }
-

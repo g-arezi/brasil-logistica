@@ -15,9 +15,7 @@ final class SupportTicketUpdated implements ShouldBroadcast
     use Dispatchable;
     use SerializesModels;
 
-    public function __construct(public readonly SupportTicket $ticket)
-    {
-    }
+    public function __construct(public readonly SupportTicket $ticket) {}
 
     public function broadcastOn(): array
     {
@@ -42,4 +40,3 @@ final class SupportTicketUpdated implements ShouldBroadcast
         ];
     }
 }
-

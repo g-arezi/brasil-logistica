@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Domains\Freight\Http\Resources;
 
+use App\Domains\Freight\Models\Freight;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin \App\Domains\Freight\Models\Freight
+ * @mixin Freight
  */
 class FreightResource extends JsonResource
 {
@@ -35,4 +36,3 @@ class FreightResource extends JsonResource
         ];
     }
 }
-

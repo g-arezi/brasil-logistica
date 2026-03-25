@@ -14,7 +14,7 @@ use Spatie\LaravelData\Data;
 final class CreateFreightData extends Data
 {
     /**
-     * @param array<string, mixed> $payload
+     * @param  array<string, mixed>  $payload
      */
     public static function fromRequestPayload(array $payload): self
     {
@@ -43,7 +43,5 @@ final class CreateFreightData extends Data
         public readonly int $maxPriceCents,
         #[In(VehicleType::class)]
         public readonly VehicleType $requiredVehicleType,
-    ) {
-    }
+    ) {}
 }
-

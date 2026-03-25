@@ -9,6 +9,7 @@ use App\Domains\Freight\Models\Freight;
 use App\Domains\Vehicle\Enums\VehicleType;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @extends Factory<Freight>
@@ -48,7 +49,7 @@ class FreightFactory extends Factory
             'details' => fake()->realText(150),
         ];
 
-        $isPgsql = \Illuminate\Support\Facades\DB::connection()->getDriverName() === 'pgsql';
+        $isPgsql = DB::connection()->getDriverName() === 'pgsql';
         if ($isPgsql) {
             $geo = Freight::buildGeoPayload(
                 ['lat' => $originLat, 'lng' => $originLng],

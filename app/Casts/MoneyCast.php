@@ -24,4 +24,3 @@ final class MoneyCast implements CastsAttributes
         return (int) round((float) $value);
     }
 }
-

@@ -10,4 +10,3 @@ enum SupportTicketStatus: string
     case InProgress = 'in_progress';
     case Resolved = 'resolved';
 }
-

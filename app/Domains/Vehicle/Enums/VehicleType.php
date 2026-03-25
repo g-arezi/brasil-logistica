@@ -12,4 +12,3 @@ enum VehicleType: string
     case Van = 'van';
     case Carreta = 'carreta';
 }
-

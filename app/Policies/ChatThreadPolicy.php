@@ -19,4 +19,3 @@ final class ChatThreadPolicy
         return $this->view($user, $thread) && $thread->status->value === 'open';
     }
 }
-

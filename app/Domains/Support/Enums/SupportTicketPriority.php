@@ -11,4 +11,3 @@ enum SupportTicketPriority: string
     case High = 'high';
     case Critical = 'critical';
 }
-

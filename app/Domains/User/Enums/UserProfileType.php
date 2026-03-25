@@ -13,4 +13,3 @@ enum UserProfileType: string
     case FreightistaLegacy = 'freightista';
     case Company = 'company';
 }
-

@@ -67,4 +67,3 @@ final class BrazilLocations
         return self::STATES_TO_CITIES;
     }
 }
-

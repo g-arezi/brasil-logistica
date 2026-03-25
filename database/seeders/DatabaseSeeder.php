@@ -8,11 +8,10 @@ use App\Domains\Freight\Enums\FreightStatus;
 use App\Domains\Freight\Models\Freight;
 use App\Domains\User\Enums\UserProfileType;
 use App\Domains\Vehicle\Enums\VehicleType;
-use App\Support\BrazilLocations;
 use App\Models\User;
+use App\Support\BrazilLocations;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {

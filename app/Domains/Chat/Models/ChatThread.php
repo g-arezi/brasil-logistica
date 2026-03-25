@@ -56,4 +56,3 @@ class ChatThread extends Model
         return $this->hasMany(ChatMessage::class, 'thread_id');
     }
 }
-

@@ -9,4 +9,3 @@ enum ChatThreadStatus: string
     case Open = 'open';
     case Closed = 'closed';
 }
-

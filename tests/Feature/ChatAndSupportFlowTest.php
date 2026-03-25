@@ -70,6 +70,3 @@ it('opens and resolves a support ticket', function (): void {
 
     expect($ticket->fresh()->status)->toBe(SupportTicketStatus::Resolved);
 });
-
-
-

@@ -58,5 +58,3 @@ final class OpenSupportTicketAction
         return $ticket;
     }
 }
-
-

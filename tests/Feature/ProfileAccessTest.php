@@ -58,4 +58,3 @@ it('redirects admin user to admin dashboard', function (): void {
 
     $response->assertRedirect(route('admin.dashboard', absolute: false));
 });
-

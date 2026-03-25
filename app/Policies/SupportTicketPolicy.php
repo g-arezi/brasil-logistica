@@ -29,4 +29,3 @@ final class SupportTicketPolicy
         return $user->profile_type->value === 'admin';
     }
 }
-

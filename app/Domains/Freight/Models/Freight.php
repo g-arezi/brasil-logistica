@@ -8,6 +8,7 @@ use App\Casts\MoneyCast;
 use App\Domains\Freight\Enums\FreightStatus;
 use App\Domains\User\Models\User;
 use App\Domains\Vehicle\Enums\VehicleType;
+use Database\Factories\FreightFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -80,7 +81,7 @@ class Freight extends Model
 
     protected static function newFactory()
     {
-        return \Database\Factories\FreightFactory::new();
+        return FreightFactory::new();
     }
 
     public function company(): BelongsTo
@@ -108,8 +109,8 @@ class Freight extends Model
     }
 
     /**
-     * @param array{lat:float,lng:float} $origin
-     * @param array{lat:float,lng:float} $destination
+     * @param  array{lat:float,lng:float}  $origin
+     * @param  array{lat:float,lng:float}  $destination
      * @return array<string, mixed>
      */
     public static function buildGeoPayload(array $origin, array $destination): array
@@ -120,4 +121,3 @@ class Freight extends Model
         ];
     }
 }
-

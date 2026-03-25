@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use App\Domains\Freight\DataTransferObjects\FreightFilterData;
+use App\Domains\Freight\Models\Freight;
 use App\Domains\Freight\Pipelines\FreightFilterPipeline;
 use App\Domains\Vehicle\Enums\VehicleType;
 use App\Support\BrazilLocations;
@@ -12,18 +13,21 @@ use Illuminate\Contracts\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Domains\Freight\Models\Freight;
 
 class FreightBoard extends Component
 {
     use WithPagination;
 
     public ?string $origin_state = null;
+
     public ?string $origin_city = null;
+
     public ?string $destination_state = null;
+
     public ?string $destination_city = null;
 
     public ?Freight $selectedFreight = null;
+
     public bool $showingDetails = false;
 
     /**

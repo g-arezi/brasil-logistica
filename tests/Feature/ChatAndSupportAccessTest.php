@@ -18,4 +18,3 @@ it('allows authenticated operational profiles to access chat and support', funct
     $this->actingAs($user)->get('/chat')->assertOk();
     $this->actingAs($user)->get('/suporte')->assertOk();
 });
-

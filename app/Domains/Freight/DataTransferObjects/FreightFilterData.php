@@ -10,7 +10,7 @@ use Spatie\LaravelData\Data;
 final class FreightFilterData extends Data
 {
     /**
-     * @param list<VehicleType> $vehicleTypes
+     * @param  list<VehicleType>  $vehicleTypes
      */
     public function __construct(
         public readonly ?float $originLat,
@@ -23,11 +23,10 @@ final class FreightFilterData extends Data
         public readonly ?string $destinationState,
         public readonly ?string $destinationCity,
         public readonly array $vehicleTypes = [],
-    ) {
-    }
+    ) {}
 
     /**
-     * @param array<string, mixed> $payload
+     * @param  array<string, mixed>  $payload
      */
     public static function fromRequestPayload(array $payload): self
     {
@@ -61,4 +60,3 @@ final class FreightFilterData extends Data
         return $trimmed === '' ? null : $trimmed;
     }
 }
-

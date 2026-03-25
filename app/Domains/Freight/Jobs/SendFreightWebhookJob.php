@@ -19,9 +19,7 @@ final class SendFreightWebhookJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public function __construct(public readonly string $freightId)
-    {
-    }
+    public function __construct(public readonly string $freightId) {}
 
     public function handle(): void
     {
@@ -48,4 +46,3 @@ final class SendFreightWebhookJob implements ShouldQueue
         ]);
     }
 }
-

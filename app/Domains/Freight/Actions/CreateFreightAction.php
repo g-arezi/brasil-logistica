@@ -19,8 +19,7 @@ final class CreateFreightAction
     public function __construct(
         private readonly DistanceServiceInterface $distanceService,
         private readonly DocumentValidationServiceInterface $documentValidationService,
-    ) {
-    }
+    ) {}
 
     public function execute(CreateFreightData $data): Freight
     {
@@ -97,4 +96,3 @@ final class CreateFreightAction
         $company->forceFill(['document_verified_at' => now()])->save();
     }
 }
-

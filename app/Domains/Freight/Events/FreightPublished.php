@@ -7,7 +7,6 @@ namespace App\Domains\Freight\Events;
 use App\Domains\Freight\Models\Freight;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -18,9 +17,7 @@ final class FreightPublished implements ShouldBroadcast
     use InteractsWithSockets;
     use SerializesModels;
 
-    public function __construct(public readonly Freight $freight)
-    {
-    }
+    public function __construct(public readonly Freight $freight) {}
 
     public function broadcastOn(): array
     {
@@ -45,4 +42,3 @@ final class FreightPublished implements ShouldBroadcast
         ];
     }
 }
-

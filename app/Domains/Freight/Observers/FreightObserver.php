@@ -14,4 +14,3 @@ final class FreightObserver
         SendFreightWebhookJob::dispatch($freight->id);
     }
 }
-

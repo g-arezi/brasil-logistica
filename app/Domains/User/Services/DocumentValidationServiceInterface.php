@@ -8,4 +8,3 @@ interface DocumentValidationServiceInterface
 {
     public function isValid(string $document): bool;
 }
-

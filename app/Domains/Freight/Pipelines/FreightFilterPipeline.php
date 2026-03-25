@@ -16,9 +16,7 @@ use Illuminate\Pipeline\Pipeline;
 
 final class FreightFilterPipeline
 {
-    public function __construct(private readonly Pipeline $pipeline)
-    {
-    }
+    public function __construct(private readonly Pipeline $pipeline) {}
 
     public function apply(FreightFilterData $filters): Builder
     {
@@ -39,4 +37,3 @@ final class FreightFilterPipeline
         return $result;
     }
 }
-

@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -43,13 +46,13 @@ class LoginRequest extends FormRequest
         $this->ensureIsNotRateLimited();
 
         $credentials = $this->only('email', 'password');
-        \Illuminate\Support\Facades\Log::info('Login attempt', ['email' => $credentials['email'] ?? null]);
+        Log::info('Login attempt', ['email' => $credentials['email'] ?? null]);
 
         if (! Auth::attempt($credentials, $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
-            $user = \App\Models\User::where('email', $credentials['email'])->first();
-            \Illuminate\Support\Facades\Log::warning('Login failed', ['exists' => (bool)$user, 'password_match' => $user ? \Illuminate\Support\Facades\Hash::check($credentials['password'], $user->password) : false]);
+            $user = User::where('email', $credentials['email'])->first();
+            Log::warning('Login failed', ['exists' => (bool) $user, 'password_match' => $user ? Hash::check($credentials['password'], $user->password) : false]);
 
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),

@@ -10,4 +10,3 @@ enum FreightStatus: string
     case Matched = 'matched';
     case Closed = 'closed';
 }
-

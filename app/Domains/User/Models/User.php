@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace App\Domains\User\Models;
 
-use App\Domains\User\Enums\UserProfileType;
-use App\Domains\Vehicle\Models\Vehicle;
 use App\Domains\Chat\Models\ChatMessage;
 use App\Domains\Chat\Models\ChatThread;
 use App\Domains\Support\Models\SupportTicket;
 use App\Domains\Support\Models\SupportTicketMessage;
+use App\Domains\User\Enums\UserProfileType;
+use App\Domains\Vehicle\Models\Vehicle;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -23,12 +25,13 @@ use Illuminate\Notifications\Notifiable;
  * @property string $password
  * @property UserProfileType $profile_type
  * @property string|null $document_number
- * @property \Illuminate\Support\Carbon|null $document_verified_at
+ * @property Carbon|null $document_verified_at
  */
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    /** @use HasFactory<UserFactory> */
     use HasFactory;
+
     use Notifiable;
 
     /**
@@ -91,4 +94,3 @@ class User extends Authenticatable
         return $this->hasMany(SupportTicketMessage::class, 'sender_id');
     }
 }
-
