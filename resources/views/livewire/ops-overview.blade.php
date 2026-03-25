@@ -80,9 +80,9 @@
                             </td>
                             <td class="px-3 py-2">
                                 <div class="flex flex-wrap gap-1">
-                                    <button wire:click="assignToMe('{{ $ticket->id }}')" type="button" class="rounded bg-slate-700 px-2 py-1 text-xs hover:bg-slate-600">Assumir</button>
-                                    <button wire:click="setTicketStatus('{{ $ticket->id }}', 'in_progress')" type="button" class="rounded bg-indigo-700 px-2 py-1 text-xs hover:bg-indigo-600">Em andamento</button>
-                                    <button wire:click="setTicketStatus('{{ $ticket->id }}', 'resolved')" type="button" class="rounded bg-emerald-700 px-2 py-1 text-xs hover:bg-emerald-600">Resolver</button>
+                                    <button wire:click="assignTicket('{{ $ticket->id }}')" type="button" class="rounded bg-slate-700 px-2 py-1 text-xs hover:bg-slate-600">Assumir</button>
+                                    <button wire:click="updateTicketStatus('{{ $ticket->id }}', 'in_progress')" type="button" class="rounded bg-indigo-700 px-2 py-1 text-xs hover:bg-indigo-600">Em andamento</button>
+                                    <button wire:click="updateTicketStatus('{{ $ticket->id }}', 'resolved')" type="button" class="rounded bg-emerald-700 px-2 py-1 text-xs hover:bg-emerald-600">Resolver</button>
                                 </div>
                             </td>
                         </tr>

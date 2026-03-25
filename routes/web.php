@@ -21,9 +21,9 @@ Route::get('/dashboard', function () {
     }
 
     if (
-        $user?->profile_type === UserProfileType::Transportadora
-        || $user?->profile_type === UserProfileType::Company
-        || $user?->profile_type === UserProfileType::FreightistaLegacy
+        $user?->profile_type === UserProfileType::Transportadora ||
+        $user?->profile_type === UserProfileType::Company ||
+        $user?->profile_type === UserProfileType::FreightistaLegacy
     ) {
         return redirect()->route('transportadora.dashboard');
     }

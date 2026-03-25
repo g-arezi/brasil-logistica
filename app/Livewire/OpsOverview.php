@@ -16,7 +16,7 @@ use Livewire\Component;
 
 class OpsOverview extends Component
 {
-    public function assignToMe(string $ticketId): void
+    public function assignTicket(int $ticketId): void
     {
         $user = auth()->user();
         $ticket = SupportTicket::query()->find($ticketId);
@@ -25,12 +25,13 @@ class OpsOverview extends Component
             return;
         }
 
-        $ticket->assigned_to = $user->id;
-        $ticket->status = SupportTicketStatus::InProgress;
-        $ticket->save();
+        $ticket->update([
+            'assigned_to' => $user->id,
+            'status' => SupportTicketStatus::InProgress,
+        ]);
     }
 
-    public function setTicketStatus(string $ticketId, string $status): void
+    public function updateTicketStatus(int $ticketId, string $status): void
     {
         $ticket = SupportTicket::query()->find($ticketId);
 
@@ -38,7 +39,7 @@ class OpsOverview extends Component
             return;
         }
 
-        if (Gate::denies('assign', $ticket)) {
+        if (Gate::denies('update', $ticket)) {
             return;
         }
 
@@ -69,7 +70,7 @@ class OpsOverview extends Component
             ->map(static function ($item) {
                 $profileType = is_object($item->profile_type) && property_exists($item->profile_type, 'value')
                     ? $item->profile_type->value
-                    : (string) $item->profile_type;
+                    : ($item->profile_type instanceof \BackedEnum ? $item->profile_type->value : (string) ($item->profile_type->name ?? $item->profile_type));
 
                 return (object) [
                     'profile_type' => $profileType,

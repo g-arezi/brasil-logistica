@@ -67,6 +67,50 @@ php artisan serve
 php artisan reverb:start
 ```
 
+## 🐳 Executando com Docker
+
+Se preferir rodar o projeto isolado utilizando as configuracoes prontas do Docker e Docker Compose, siga os passos abaixo:
+
+1. Clone o repositorio e copie as variaveis de ambiente:
+```bash
+git clone https://github.com/SEU_USUARIO/BrasilLogistica.git
+cd BrasilLogistica
+cp .env.example .env
+```
+
+2. Edite o seu arquivo `.env` para conectar aos containers criados pelo Docker (PostgreSQL e Redis):
+```env
+DB_CONNECTION=pgsql
+DB_HOST=postgres
+DB_PORT=5432
+DB_DATABASE=brasil_logistica
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
+
+CACHE_STORE=redis
+QUEUE_CONNECTION=redis
+SESSION_DRIVER=redis
+REDIS_HOST=redis
+```
+
+3. Suba as maquinas com Docker Compose:
+```bash
+docker-compose up -d
+```
+
+4. Acesse o container principal para gerar as chaves e popular o banco de dados:
+```bash
+docker-compose exec app php artisan key:generate
+docker-compose exec app php artisan migrate:fresh --seed
+```
+
+5. Instale as dependencias do front-end e compile os assets do Vite:
+```bash
+npm install && npm run build
+```
+
+Nesse momento o app estara exposto na sua porta local mapeada **http://localhost:8000** com o websocket funcionando internamente na 8080.
+
 ## 🔒 Testes Automaticos
 A plataforma conta com a suite de testes Pest:
 ```bash

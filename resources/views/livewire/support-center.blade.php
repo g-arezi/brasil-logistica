@@ -8,18 +8,18 @@
     <section class="rounded-lg border border-slate-800 bg-slate-900 p-4 shadow-sm lg:col-span-1">
         <h3 class="text-sm font-semibold text-slate-200">Abrir chamado</h3>
         <div class="mt-3 space-y-2">
-            <input wire:model.defer="subject" type="text" placeholder="Assunto" class="w-full rounded-md border-slate-700 bg-slate-950 text-sm text-slate-100" />
-            <select wire:model.defer="category" class="w-full rounded-md border-slate-700 bg-slate-950 text-sm text-slate-100">
+            <input wire:model="subject" type="text" placeholder="Assunto" class="w-full rounded-md border-slate-700 bg-slate-950 text-sm text-slate-100" />
+            <select wire:model="category" class="w-full rounded-md border-slate-700 bg-slate-950 text-sm text-slate-100">
                 @foreach ($categories as $category)
                     <option value="{{ $category }}">{{ ucfirst($category) }}</option>
                 @endforeach
             </select>
-            <select wire:model.defer="priority" class="w-full rounded-md border-slate-700 bg-slate-950 text-sm text-slate-100">
+            <select wire:model="priority" class="w-full rounded-md border-slate-700 bg-slate-950 text-sm text-slate-100">
                 @foreach ($priorities as $priority)
                     <option value="{{ $priority->value }}">{{ ucfirst($priority->value) }}</option>
                 @endforeach
             </select>
-            <textarea wire:model.defer="description" rows="4" placeholder="Descreva o problema" class="w-full rounded-md border-slate-700 bg-slate-950 text-sm text-slate-100"></textarea>
+            <textarea wire:model="description" rows="4" placeholder="Descreva o problema" class="w-full rounded-md border-slate-700 bg-slate-950 text-sm text-slate-100"></textarea>
             <input wire:model="ticketAttachment" type="file" class="w-full rounded-md border-slate-700 bg-slate-950 text-xs text-slate-300" />
             <button wire:click="createTicket" type="button" class="w-full rounded-md bg-indigo-600 px-4 py-2 text-sm text-white hover:bg-indigo-500">Criar chamado</button>
         </div>
@@ -61,18 +61,19 @@
                 @endforeach
             </div>
 
-            <div class="mt-3 flex gap-2">
-                <input wire:model.defer="newMessage" type="text" placeholder="Responder chamado..." class="w-full rounded-md border-slate-700 bg-slate-950 text-sm text-slate-100" />
-                <input wire:model="messageAttachment" type="file" class="w-56 rounded-md border-slate-700 bg-slate-950 text-xs text-slate-300" />
-                <button wire:click="addMessage" type="button" class="rounded-md bg-indigo-600 px-4 py-2 text-sm text-white hover:bg-indigo-500">Enviar</button>
-                <button wire:click="resolveTicket" type="button" class="rounded-md bg-emerald-600 px-4 py-2 text-sm text-white hover:bg-emerald-500">Resolver</button>
+            <div class="mt-3">
+                <form wire:submit="sendMessage" class="flex gap-2">
+                    <input wire:model="newMessage" type="text" placeholder="Responder chamado..." class="w-full rounded-md border-slate-700 bg-slate-950 text-sm text-slate-100" />
+                    <input wire:model="messageAttachment" type="file" class="w-56 rounded-md border-slate-700 bg-slate-950 text-xs text-slate-300" />
+                    <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm text-white hover:bg-indigo-500">Enviar</button>
+                    <button wire:click="closeTicket" type="button" class="rounded-md bg-emerald-600 px-4 py-2 text-sm text-white hover:bg-emerald-500">Resolver</button>
+                </form>
+                @error('newMessage') <span class="text-xs text-rose-400 mt-1 block">{{ $message }}</span> @enderror
+                @error('messageAttachment') <span class="text-xs text-rose-400 mt-1 block">{{ $message }}</span> @enderror
             </div>
         @else
-            <p class="mt-3 text-sm text-slate-400">Selecione um chamado para visualizar o histórico.</p>
+            <p class="mt-3 text-sm text-slate-400">Selecione um chamado para visualizar o histrico.</p>
         @endif
     </section>
 </div>
-
-
-
 

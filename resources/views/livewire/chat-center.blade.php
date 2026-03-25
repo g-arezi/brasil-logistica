@@ -49,10 +49,15 @@
             @endforelse
         </div>
 
-        <div class="mt-3 flex gap-2">
-            <input wire:model.defer="newMessage" type="text" placeholder="Digite uma mensagem..." class="w-full rounded-md border-slate-700 bg-slate-950 text-sm text-slate-100" />
-            <input wire:model="attachment" type="file" class="w-56 rounded-md border-slate-700 bg-slate-950 text-xs text-slate-300" />
-            <button wire:click="sendMessage" type="button" class="rounded-md bg-indigo-600 px-4 py-2 text-sm text-white hover:bg-indigo-500">Enviar</button>
+        <div class="mt-3">
+            <form wire:submit="sendMessage" class="flex gap-2">
+                <input wire:model="newMessage" type="text" placeholder="Digite uma mensagem..." class="w-full rounded-md border-slate-700 bg-slate-950 text-sm text-slate-100" />
+                <input wire:model="attachment" type="file" class="w-56 rounded-md border-slate-700 bg-slate-950 text-xs text-slate-300" />
+                <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm text-white hover:bg-indigo-500 disabled:opacity-50">Enviar</button>
+            </form>
+            @error('newMessage') <span class="text-xs text-rose-400 mt-1 block">{{ $message }}</span> @enderror
+            @error('attachment') <span class="text-xs text-rose-400 mt-1 block">{{ $message }}</span> @enderror
+            @error('message') <span class="text-xs text-rose-400 mt-1 block">{{ $message }}</span> @enderror
         </div>
     </section>
 
@@ -61,7 +66,8 @@
             document.addEventListener('livewire:init', () => {
                 window.__chatRealtimeBound = window.__chatRealtimeBound || {};
 
-                Livewire.on('refresh-thread-channel', (threadId) => {
+                Livewire.on('refresh-thread-channel', (event) => {
+                    let threadId = Array.isArray(event) ? event[0] : event;
                     if (!threadId || window.__chatRealtimeBound[threadId]) {
                         return;
                     }
@@ -75,7 +81,4 @@
         </script>
     @endonce
 </div>
-
-
-
 

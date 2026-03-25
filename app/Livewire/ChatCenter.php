@@ -79,7 +79,7 @@ class ChatCenter extends Component
             return;
         }
 
-        /** @var ChatThread|null $thread */
+        /** @var ChatThreadnull $thread */
         $thread = ChatThread::query()->find($this->activeThreadId);
 
         if ($thread === null) {

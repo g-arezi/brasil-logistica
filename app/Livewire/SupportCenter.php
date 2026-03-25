@@ -85,7 +85,7 @@ class SupportCenter extends Component
         $this->ticketAttachment = null;
     }
 
-    public function addMessage(): void
+    public function sendMessage(): void
     {
         $user = auth()->user();
 
@@ -93,10 +93,7 @@ class SupportCenter extends Component
             return;
         }
 
-        $this->validate([
-            'newMessage' => ['required', 'string', 'max:5000'],
-        ]);
-
+        /** @var SupportTicket|null $ticket */
         $ticket = SupportTicket::query()->find($this->activeTicketId);
 
         if ($ticket === null) {
@@ -146,7 +143,7 @@ class SupportCenter extends Component
         $this->messageAttachment = null;
     }
 
-    public function resolveTicket(): void
+    public function closeTicket(): void
     {
         $user = auth()->user();
 
@@ -154,6 +151,7 @@ class SupportCenter extends Component
             return;
         }
 
+        /** @var SupportTicket|null $ticket */
         $ticket = SupportTicket::query()->find($this->activeTicketId);
 
         if ($ticket === null) {
@@ -174,6 +172,8 @@ class SupportCenter extends Component
 
     public function render(): View
     {
+        $user = auth()->user();
+
         if (! Schema::hasTable('support_tickets') || ! Schema::hasTable('support_ticket_messages')) {
             return view('livewire.support-center', [
                 'tickets' => collect(),
