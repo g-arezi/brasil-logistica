@@ -2,7 +2,7 @@
 
 Sistema moderno e escalavel focado em conectar Empresas, Transportadoras, Agenciadores e Motoristas de todo o Brasil para negociacao e gestao de fretes.
 
-## 🚀 Principais Features e Funcionalidades
+##  Principais Features e Funcionalidades
 
 ### 1. Sistema de Perfis e Acesso (Multi-Tenancy / Roles)
 - O sistema possui controle rigido de acesso atravessando **Niveis de Acesso**:
