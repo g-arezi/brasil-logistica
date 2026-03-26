@@ -33,16 +33,22 @@
                     @error('destination_state') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
                 </label>
 
-                <label class="space-y-1 text-sm">
-                    <span class="font-medium text-slate-300">Tipo de Veículo</span>
-                    <select wire:model="required_vehicle_type" class="w-full rounded-lg border-slate-700 bg-slate-950 text-slate-100 placeholder-slate-500 focus:border-cyan-500 focus:ring-cyan-500" required>
-                        <option value="">Selecione...</option>
-                        @foreach ($vehicleTypes as $type)
-                            <option value="{{ $type->value }}">{{ strtoupper($type->value) }}</option>
-                        @endforeach
-                    </select>
-                    @error('required_vehicle_type') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
-                </label>
+                                <div class="space-y-1 text-sm">
+                    <span class="font-medium text-slate-300">Tipo de Veiculo</span>
+                    <div class="flex gap-2">
+                        <select wire:model.live="required_vehicle_type" class="w-full rounded-lg border-slate-700 bg-slate-950 text-slate-100 placeholder-slate-500 focus:border-cyan-500 focus:ring-cyan-500" required>
+                            <option value="">Selecione...</option>
+                            @foreach ($vehicleTypes as $type)
+                                <option value="{{ $type->value }}">{{ strtoupper($type->value) }}</option>
+                            @endforeach
+                        </select>
+                        @if ($required_vehicle_type === 'outros')
+                            <input wire:model="other_vehicle_type" type="text" class="w-full rounded-lg border-slate-700 bg-slate-950 text-slate-100 placeholder-slate-500 focus:border-cyan-500 focus:ring-cyan-500" placeholder="Qual?" required />
+                        @endif
+                    </div>
+                    @error('required_vehicle_type') <span class="block text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
+                    @error('other_vehicle_type') <span class="block text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
+                </div>
 
                 <label class="space-y-1 text-sm">
                     <span class="font-medium text-slate-300">Valor do Frete (R$)</span>
@@ -50,6 +56,11 @@
                     @error('price') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
                 </label>
 
+                                <label class="space-y-1 text-sm md:col-span-2">
+                    <span class="font-medium text-slate-300">Telefone para Contato</span>
+                    <input wire:model="contact_phone" type="text" class="w-full rounded-lg border-slate-700 bg-slate-950 text-slate-100 placeholder-slate-500 focus:border-cyan-500 focus:ring-cyan-500" placeholder="Ex: (11) 98765-4321" required />
+                    @error('contact_phone') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
+                </label>
                 <label class="space-y-1 text-sm md:col-span-2">
                     <span class="font-medium text-slate-300">Detalhes e Observações Adicionais</span>
                     <textarea wire:model="details" rows="4" class="w-full rounded-lg border-slate-700 bg-slate-950 text-slate-100 placeholder-slate-500 focus:border-cyan-500 focus:ring-cyan-500" placeholder="Informações extras como restrições de horário, características da carga, contatos..."></textarea>

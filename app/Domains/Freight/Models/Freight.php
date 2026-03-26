@@ -61,6 +61,7 @@ class Freight extends Model
         'distance_km',
         'estimated_minutes',
         'details',
+        'contact_phone',
     ];
 
     /**

@@ -22,6 +22,7 @@ final class FreightFilterData extends Data
         public readonly ?string $originCity,
         public readonly ?string $destinationState,
         public readonly ?string $destinationCity,
+        public readonly ?string $search = null,
         public readonly array $vehicleTypes = [],
     ) {}
 
@@ -45,6 +46,7 @@ final class FreightFilterData extends Data
             originCity: self::sanitizeLocationInput($payload['origin_city'] ?? null),
             destinationState: self::sanitizeLocationInput($payload['destination_state'] ?? null),
             destinationCity: self::sanitizeLocationInput($payload['destination_city'] ?? null),
+            search: $payload['search'] ?? null,
             vehicleTypes: $types,
         );
     }

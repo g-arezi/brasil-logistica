@@ -22,6 +22,7 @@ class FreightBoard extends Component
     public ?string $origin_city = null;
     public ?string $destination_state = null;
     public ?string $destination_city = null;
+    public ?string $search = null;
 
     public ?Freight $selectedFreight = null;
     public bool $showingDetails = false;
@@ -34,7 +35,9 @@ class FreightBoard extends Component
     public string $edit_destination_state = '';
     public float $edit_price = 0.0;
     public string $edit_required_vehicle_type = '';
+    public string $edit_other_vehicle_type = '';
     public string $edit_details = '';
+    public string $edit_contact_phone = '';
 
     /**
      * @var list<string>
@@ -53,6 +56,7 @@ class FreightBoard extends Component
         $this->origin_city = null;
         $this->destination_state = null;
         $this->destination_city = null;
+        $this->search = null;
         $this->vehicle_types = [];
 
         $this->resetPage();
@@ -99,6 +103,7 @@ class FreightBoard extends Component
                 $this->edit_price = $freight->price_cents / 100;
                 $this->edit_required_vehicle_type = $freight->required_vehicle_type->value;
                 $this->edit_details = $freight->details ?? '';
+                $this->edit_contact_phone = $freight->contact_phone ?? '';
                 $this->showingEdit = true;
             } else {
                 session()->flash('error', 'Sem permissao para editar este frete.');
@@ -116,9 +121,16 @@ class FreightBoard extends Component
                 'edit_destination_state' => 'required|string|size:2',
                 'edit_price' => 'required|numeric|min:1',
                 'edit_required_vehicle_type' => 'required|string',
+                'edit_other_vehicle_type' => 'nullable|string|max:255',
                 'edit_details' => 'nullable|string',
+                'edit_contact_phone' => 'required|string|max:20',
             ]);
 
+            $details = $this->edit_details;
+            if ($this->edit_required_vehicle_type === 'outros' && trim($this->edit_other_vehicle_type) !== '') {
+                $append = "Veiculo Especifico: " . trim($this->edit_other_vehicle_type);
+                $details = $details ? $append . "\n\n" . $details : $append;
+            }
             $this->editingFreight->update([
                 'origin_city' => $this->edit_origin_city,
                 'origin_state' => strtoupper($this->edit_origin_state),
@@ -126,7 +138,8 @@ class FreightBoard extends Component
                 'destination_state' => strtoupper($this->edit_destination_state),
                 'price_cents' => (int) ($this->edit_price * 100),
                 'required_vehicle_type' => VehicleType::from($this->edit_required_vehicle_type),
-                'details' => $this->edit_details,
+                'details' => $details,
+                'contact_phone' => $this->edit_contact_phone,
             ]);
 
             session()->flash('success', 'Frete atualizado com sucesso!');
@@ -172,6 +185,7 @@ class FreightBoard extends Component
             originCity: $this->origin_city,
             destinationState: $this->destination_state,
             destinationCity: $this->destination_city,
+            search: $this->search,
             vehicleTypes: array_values(array_filter(array_map(
                 static fn (string $type): ?VehicleType => VehicleType::tryFrom($type),
                 $this->vehicle_types

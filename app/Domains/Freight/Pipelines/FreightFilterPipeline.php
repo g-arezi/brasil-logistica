@@ -10,6 +10,7 @@ use App\Domains\Freight\Pipelines\Filters\DestinationLocationFilter;
 use App\Domains\Freight\Pipelines\Filters\OriginLocationFilter;
 use App\Domains\Freight\Pipelines\Filters\PriceRangeFilter;
 use App\Domains\Freight\Pipelines\Filters\RadiusFilter;
+use App\Domains\Freight\Pipelines\Filters\SearchFilter;
 use App\Domains\Freight\Pipelines\Filters\VehicleTypeFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pipeline\Pipeline;
@@ -26,6 +27,7 @@ final class FreightFilterPipeline
         $result = $this->pipeline
             ->send($builder)
             ->through([
+                new SearchFilter($filters),
                 new RadiusFilter($filters),
                 new OriginLocationFilter($filters),
                 new DestinationLocationFilter($filters),

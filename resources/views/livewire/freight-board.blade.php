@@ -35,6 +35,10 @@
         </div>
 
         <div class="grid grid-cols-1 gap-5 md:grid-cols-4">
+            <label class="space-y-1 text-sm md:col-span-4">
+                <span class="font-medium text-slate-300">Busca por texto</span>
+                <input type="text" wire:model.live.debounce.500ms="search" placeholder="Buscar por cidade, estado, detalhes..." class="w-full rounded-lg border-slate-700 bg-slate-950 text-slate-100 placeholder-slate-500 focus:border-cyan-500 focus:ring-cyan-500">
+            </label>
             <label class="space-y-1 text-sm">
                 <span class="font-medium text-slate-300">Estado de origem</span>
                 <select wire:model.live="origin_state" class="w-full rounded-lg border-slate-700 bg-slate-950 text-slate-100 placeholder-slate-500 focus:border-cyan-500 focus:ring-cyan-500">
@@ -178,18 +182,8 @@
                             <span class="text-slate-100">{{ $selectedFreight->destination_city }} / {{ $selectedFreight->destination_state }}</span>
                         </div>
                         <div>
-                            <span class="block font-medium text-slate-400">Distancia Estimada</span>
-                            <span class="text-slate-100">{{ number_format($selectedFreight->distance_km ?? 0, 1, ',', '.') }} km</span>
-                        </div>
-                        <div>
-                            <span class="block font-medium text-slate-400">Tempo Estimado</span>
-                            <span class="text-slate-100">
-                                @if($selectedFreight->estimated_minutes)
-                                    {{ floor($selectedFreight->estimated_minutes / 60) }}h {{ $selectedFreight->estimated_minutes % 60 }}m
-                                @else
-                                    N/A
-                                @endif
-                            </span>
+                            <span class="block font-medium text-slate-400">Telefone Contato</span>
+                            <span class="text-slate-100">{{ $selectedFreight->contact_phone ?? 'N/A' }}</span>
                         </div>
                         <div>
                             <span class="block font-medium text-slate-400">Veiculo Requerido</span>
@@ -278,15 +272,26 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-300">Tipo de Veiculo</label>
-                            <select wire:model="edit_required_vehicle_type" class="mt-1 block w-full rounded-md border-slate-700 bg-slate-950 text-slate-100" required>
-                                @foreach($vehicleOptions as $option)
-                                    <option value="{{ $option->value }}">{{ strtoupper($option->value) }}</option>
-                                @endforeach
-                            </select>
+                            <div class="flex gap-2">
+                                <select wire:model.live="edit_required_vehicle_type" class="mt-1 block w-full rounded-md border-slate-700 bg-slate-950 text-slate-100" required>
+                                    @foreach($vehicleOptions as $option)
+                                        <option value="{{ $option->value }}">{{ strtoupper($option->value) }}</option>
+                                    @endforeach
+                                </select>
+                                @if($edit_required_vehicle_type === 'outros')
+                                    <input type="text" wire:model="edit_other_vehicle_type" class="mt-1 block w-full rounded-md border-slate-700 bg-slate-950 text-slate-100" placeholder="Qual?" required>
+                                @endif
+                            </div>
                             @error('edit_required_vehicle_type') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
+                            @error('edit_other_vehicle_type') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
                         </div>
                     </div>
 
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300">Telefone Contato</label>
+                        <input type="text" wire:model="edit_contact_phone" class="mt-1 block w-full rounded-md border-slate-700 bg-slate-950 text-slate-100" required>
+                        @error('edit_contact_phone') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
+                    </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-300">Detalhes / Observacoes</label>
                         <textarea wire:model="edit_details" rows="3" class="mt-1 block w-full rounded-md border-slate-700 bg-slate-950 text-slate-100"></textarea>
