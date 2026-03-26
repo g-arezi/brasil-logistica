@@ -11,7 +11,6 @@
         <header class="flex flex-wrap items-center justify-between gap-3">
             <a href="{{ route('home') }}" class="text-lg font-semibold">BrasilLogistica</a>
             <nav class="flex items-center gap-2">
-                <a href="{{ route('freights.board') }}" class="rounded-md bg-slate-800 px-3 py-2 text-sm hover:bg-slate-700">Board de Fretes</a>
                 @auth
                     <a href="{{ route('dashboard') }}" class="rounded-md bg-indigo-600 px-3 py-2 text-sm hover:bg-indigo-500">Dashboard</a>
                 @else
@@ -33,21 +32,21 @@
             </section>
 
             <section class="rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-2xl shadow-cyan-900/20">
-                <h2 class="text-xl font-semibold">Perfis suportados</h2>
+                <h2 class="text-xl font-semibold">Perfis suportados:</h2>
                 <ul class="mt-4 space-y-2 text-sm text-slate-300">
                     <li><span class="font-semibold text-slate-100">Motorista:</span> busca e candidatura em fretes.</li>
-                    <li><span class="font-semibold text-slate-100">Transportadora:</span> publicacao e gestao de cargas.</li>
+                    <li><span class="font-semibold text-slate-100">Transportadora:</span> Publicação e gestão de cargas.</li>
                     <li><span class="font-semibold text-slate-100">Agenciador:</span> intermediar oportunidades e operacao.</li>
-                    <li><span class="font-semibold text-slate-100">Administrador:</span> governanca geral da plataforma.</li>
+
+                <h2 class="text-xl font-semibold">Funcionalidades principais:</h2>
+                <ul class="mt-4 space-y-2 text-sm text-slate-300">
+                    <li><span class="font-semibold text-slate-100">Board de Fretes:</span> Listagem e filtro de oportunidades.</li>
+                    <li><span class="font-semibold text-slate-100">Dashboard personalizado:</span> Gerenciamento de perfil e atividades.</li>
+                    <li><span class="font-semibold text-slate-100">Sistema de mensagens:</span> Comunicacao direta entre usuarios.</li>
+                    <li><span class="font-semibold text-slate-100">Avaliações e feedback:</span> Construcao de reputacao confiavel.</li>
                 </ul>
-                <div class="mt-6 rounded-lg bg-slate-950 p-4 text-sm text-slate-300 space-y-1">
-                    <p class="font-semibold mb-2">Contas de Demonstracao (Senha: password):</p>
-                    <p>Empresa: <span class="text-cyan-300">empresa@demo.com</span></p>
-                    <p>Transportadora: <span class="text-cyan-300">transportadora@demo.com</span></p>
-                    <p>Agenciador: <span class="text-cyan-300">agenciador@demo.com</span></p>
-                    <p>Administrador: <span class="text-cyan-300">admin@demo.com</span></p>
-                    <p>Motorista: <span class="text-cyan-300">motorista@demo.com</span></p>
-                </div>
+                </ul>
+
             </section>
         </main>
     </div>

@@ -161,7 +161,7 @@ class FreightBoard extends Component
             $user = auth()->user();
             $isAdmin = $user?->profile_type?->value === 'admin';
 
-            if ($freight->company_id === $authId = auth()->id() || $isAdmin) {
+            if ($freight->company_id === auth()->id() || $isAdmin) {
                 $freight->delete();
                 session()->flash('success', 'Frete excluido com sucesso!');
                 if ($this->selectedFreight && $this->selectedFreight->id === $freightId) {

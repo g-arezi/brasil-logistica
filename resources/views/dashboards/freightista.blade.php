@@ -7,7 +7,7 @@
 
     <div class="py-8">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="rounded-lg bg-slate-900 border-slate-800 text-slate-100 p-6 shadow-sm">
+            <div class="rounded-lg bg-slate-900 border border-slate-800 text-slate-100 p-6 shadow-sm">
                 <p class="text-gray-700">
                     Bem-vindo ao painel da transportadora. Aqui voce publica, acompanha e gerencia seus fretes.
                 </p>

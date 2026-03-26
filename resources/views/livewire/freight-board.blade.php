@@ -1,5 +1,5 @@
 <div class="mx-auto max-w-7xl space-y-6 p-6 font-sans text-slate-100">
-    <section class="rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-2xl shadow-cyan-900/20">
+    <section class="rounded-lg bg-slate-900 border border-slate-800 p-6 shadow-sm">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
                 <h1 class="text-3xl font-bold leading-tight">Painel de Fretes</h1>
@@ -7,9 +7,7 @@
                     Busca inteligente por localizacao, preco e tipo de veiculo com atualizacao em tempo real.
                 </p>
                 <div class="mt-4 flex gap-3">
-                    <a href="{{ route('home') }}" class="inline-flex rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 text-sm font-medium hover:bg-slate-700 transition">
-                        Voltar para home
-                    </a>
+                    
                     @auth
                         @if (in_array(auth()->user()->profile_type?->value, ['transportadora', 'agenciador', 'company', 'freightista', 'admin']))
                             <a href="{{ route('freights.create') }}" class="inline-flex items-center rounded-lg bg-cyan-600 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-cyan-900/50 hover:bg-cyan-500 transition">
@@ -22,7 +20,7 @@
         </div>
     </section>
 
-    <section class="rounded-2xl border border-slate-800 bg-slate-900 p-5 shadow-2xl shadow-cyan-900/20">
+    <section class="rounded-lg bg-slate-900 border border-slate-800 p-6 shadow-sm">
         <div class="mb-5 flex items-center justify-between border-b border-slate-800 pb-4">
             <h2 class="text-xl font-semibold text-slate-100">Filtros de busca</h2>
             <button
@@ -93,7 +91,7 @@
         </div>
     </section>
 
-    <section class="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 shadow-2xl shadow-cyan-900/20">
+    <section class="overflow-hidden rounded-lg bg-slate-900 border border-slate-800 shadow-sm">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-slate-800 text-sm">
                 <thead class="bg-slate-950 text-xs uppercase tracking-wider text-slate-400">
@@ -141,7 +139,14 @@
                                         <a href="{{ route('chat.index', ['freight_id' => $freight->id]) }}" class="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-indigo-500 transition">
                                             Falar no Chat
                                         </a>
-                                    @endif
+                                        @if (auth()->user()->profile_type?->value === 'admin')
+                                            <button type="button"
+                                                wire:click="deleteFreight('{{ $freight->id }}')"
+                                                wire:confirm="Tem certeza que deseja excluir este frete?"
+                                                class="inline-flex items-center gap-2 rounded-lg border border-red-500/50 bg-red-500/10 px-3 py-1.5 text-xs font-medium text-red-400 hover:bg-red-500/20 hover:text-red-300 transition">
+                                                Excluir
+                                            </button>
+                                        @endif                                    @endif
                                 @else
                                     <a href="{{ route('login') }}" class="text-xs text-indigo-400 hover:text-indigo-300 underline">Fazer login</a>
                                 @endauth

@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-slate-900 border-slate-800 text-slate-100 border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-slate-900 border-slate-800 text-slate-100 border-b border-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
@@ -11,9 +11,7 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                        Home
-                    </x-nav-link>
+                    
                     <x-nav-link :href="route('freights.board')" :active="request()->routeIs('freights.board')">
                         Fretes
                     </x-nav-link>
@@ -78,9 +76,7 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                Home
-            </x-responsive-nav-link>
+            
             <x-responsive-nav-link :href="route('freights.board')" :active="request()->routeIs('freights.board')">
                 Fretes
             </x-responsive-nav-link>
