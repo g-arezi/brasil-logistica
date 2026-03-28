@@ -15,6 +15,9 @@ class PostFreight extends Component
     public float $price = 0.0;
     public string $details = '';
     public string $contact_phone = '';
+    public string $available_days_type = '2';
+    public string $other_available_days = '';
+
     protected function rules()
     {
         return [
@@ -27,11 +30,23 @@ class PostFreight extends Component
             'details' => ['nullable', 'string'],
             'contact_phone' => ['required', 'string', 'max:20'],
             'other_vehicle_type' => ['nullable', 'string', 'max:255'],
+            'available_days_type' => ['required', 'string', 'in:2,7,other'],
+            'other_available_days' => ['nullable', 'numeric', 'min:1', 'max:30'],
         ];
     }
+
     public function save()
     {
         $this->validate();
+
+        // Calculate days
+        $days = 2;
+        if ($this->available_days_type === '7') {
+            $days = 7;
+        } elseif ($this->available_days_type === 'other' && is_numeric($this->other_available_days)) {
+            $days = min(30, max(1, (int)$this->other_available_days));
+        }
+
         if ($this->required_vehicle_type === 'outros' && trim($this->other_vehicle_type) !== '') {
             $append = "Veiculo Especifico: " . trim($this->other_vehicle_type);
             $this->details = $this->details ? $append . "\n\n" . $this->details : $append;
@@ -55,7 +70,10 @@ class PostFreight extends Component
             'estimated_minutes' => 0,
             'details' => $this->details,
             'contact_phone' => $this->contact_phone,
+            'available_days' => $days,
+            'expires_at' => now()->addDays($days),
         ];
+
         if (config('database.default') === 'pgsql') {
             $payload = array_merge($payload, Freight::buildGeoPayload(
                 ['lat' => 0.0, 'lng' => 0.0],

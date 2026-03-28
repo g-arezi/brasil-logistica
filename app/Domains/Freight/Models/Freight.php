@@ -62,6 +62,8 @@ class Freight extends Model
         'estimated_minutes',
         'details',
         'contact_phone',
+        'available_days',
+        'expires_at',
     ];
 
     /**
@@ -78,6 +80,8 @@ class Freight extends Model
         'destination_lat' => 'float',
         'destination_lng' => 'float',
         'distance_km' => 'float',
+        'expires_at' => 'datetime',
+        'available_days' => 'integer',
     ];
 
     protected static function newFactory()

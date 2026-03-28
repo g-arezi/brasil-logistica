@@ -145,6 +145,7 @@ php artisan migrate:fresh --seed
 
 ## Versionamento no GitHub
 
+
 ```bash
 git init
 git add .

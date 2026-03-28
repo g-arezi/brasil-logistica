@@ -61,8 +61,25 @@
                     <input wire:model="contact_phone" type="text" class="w-full rounded-lg border-slate-700 bg-slate-950 text-slate-100 placeholder-slate-500 focus:border-cyan-500 focus:ring-cyan-500" placeholder="Ex: (11) 98765-4321" required />
                     @error('contact_phone') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
                 </label>
+
+                <div class="space-y-1 text-sm md:col-span-2">
+                    <span class="font-medium text-slate-300">Disponibilidade do Frete (dias)</span>
+                    <div class="flex gap-2 w-full md:w-1/2">
+                        <select wire:model.live="available_days_type" class="w-full rounded-lg border-slate-700 bg-slate-950 text-slate-100 placeholder-slate-500 focus:border-cyan-500 focus:ring-cyan-500" required>
+                            <option value="2">2 Dias</option>
+                            <option value="7">7 Dias</option>
+                            <option value="other">Outros (especificar)</option>
+                        </select>
+                        @if ($available_days_type === 'other')
+                            <input wire:model="other_available_days" type="number" min="1" max="30" class="w-full rounded-lg border-slate-700 bg-slate-950 text-slate-100 placeholder-slate-500 focus:border-cyan-500 focus:ring-cyan-500" placeholder="Qtd máxima: 30" required />
+                        @endif
+                    </div>
+                    @error('available_days_type') <span class="block text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
+                    @error('other_available_days') <span class="block text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
+                </div>
+
                 <label class="space-y-1 text-sm md:col-span-2">
-                    <span class="font-medium text-slate-300">Detalhes e Observações Adicionais</span>
+                    <span class="font-medium text-slate-300">Detalhes e Observaes Adicionais</span>
                     <textarea wire:model="details" rows="4" class="w-full rounded-lg border-slate-700 bg-slate-950 text-slate-100 placeholder-slate-500 focus:border-cyan-500 focus:ring-cyan-500" placeholder="Informações extras como restrições de horário, características da carga, contatos..."></textarea>
                     @error('details') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
                 </label>

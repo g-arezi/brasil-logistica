@@ -21,7 +21,11 @@ final class FreightFilterPipeline
 
     public function apply(FreightFilterData $filters): Builder
     {
-        $builder = Freight::query()->where('status', 'published');
+        $builder = Freight::query()
+            ->where('status', 'published')
+            ->where(function ($q) {
+                $q->whereNull('expires_at')->orWhere('expires_at', '>', now());
+            });
 
         /** @var Builder $result */
         $result = $this->pipeline

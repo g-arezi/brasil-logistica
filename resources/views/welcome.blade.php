@@ -38,7 +38,7 @@
                     <li><span class="font-semibold text-slate-100">Transportadora:</span> Publicação e gestão de cargas.</li>
                     <li><span class="font-semibold text-slate-100">Agenciador:</span> intermediar oportunidades e operacao.</li>
 
-                <h2 class="text-xl font-semibold">Funcionalidades principais:</h2>
+                <h2 class="text-xl font-semibold mt-6">Funcionalidades principais:</h2>
                 <ul class="mt-4 space-y-2 text-sm text-slate-300">
                     <li><span class="font-semibold text-slate-100">Board de Fretes:</span> Listagem e filtro de oportunidades.</li>
                     <li><span class="font-semibold text-slate-100">Dashboard personalizado:</span> Gerenciamento de perfil e atividades.</li>
@@ -49,6 +49,10 @@
 
             </section>
         </main>
+
+        <div class="mt-16 flex justify-center pb-8">
+            <img src="{{ asset('images/Logo.png') }}" alt="Logo marca" class="h-32 w-auto object-contain drop-shadow-[0_0_15px_rgba(8,145,178,0.2)]">
+        </div>
     </div>
 </body>
 </html>

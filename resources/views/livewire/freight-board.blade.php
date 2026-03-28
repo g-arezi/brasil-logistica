@@ -7,7 +7,7 @@
                     Busca inteligente por localizacao, preco e tipo de veiculo com atualizacao em tempo real.
                 </p>
                 <div class="mt-4 flex gap-3">
-                    
+
                     @auth
                         @if (in_array(auth()->user()->profile_type?->value, ['transportadora', 'agenciador', 'company', 'freightista', 'admin']))
                             <a href="{{ route('freights.create') }}" class="inline-flex items-center rounded-lg bg-cyan-600 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-cyan-900/50 hover:bg-cyan-500 transition">
@@ -96,17 +96,21 @@
             <table class="min-w-full divide-y divide-slate-800 text-sm">
                 <thead class="bg-slate-950 text-xs uppercase tracking-wider text-slate-400">
                     <tr>
-                        <th class="px-5 py-4 text-left font-medium">Postado por</th>
+                        <th class="px-5 py-4 text-left font-medium">Postado há</th>
+                        <th class="px-5 py-4 text-left font-medium">Empresa/Motorista</th>
                         <th class="px-5 py-4 text-left font-medium">Origem</th>
                         <th class="px-5 py-4 text-left font-medium">Destino</th>
                         <th class="px-5 py-4 text-left font-medium">Tipo</th>
-                        <th class="px-5 py-4 text-left font-medium">Preco</th>
-                        <th class="px-5 py-4 text-left font-medium">Acesso</th>
+                        <th class="px-5 py-4 text-left font-medium">Preço</th>
+                        <th class="px-5 py-4 text-left font-medium">Ações</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-800 bg-slate-900">
                     @forelse ($freights as $freight)
                         <tr class="transition hover:bg-slate-800/50">
+                            <td class="px-5 py-4 text-slate-400 text-xs whitespace-nowrap">
+                                {{ $freight->created_at->diffForHumans() }}
+                            </td>
                             <td class="px-5 py-4 text-slate-300">
                                 @auth
                                     <div class="font-medium">{{ $freight->company?->name ?? 'N/A' }}</div>
@@ -227,7 +231,7 @@
                             </button>
                         @else
                             <a href="{{ route('chat.index', ['freight_id' => $selectedFreight->id]) }}" class="px-4 py-2 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-500 transition">
-                                Falar no Chat
+                                 Chat
                             </a>
                         @endif
                     @else
@@ -297,6 +301,23 @@
                         <input type="text" wire:model="edit_contact_phone" class="mt-1 block w-full rounded-md border-slate-700 bg-slate-950 text-slate-100" required>
                         @error('edit_contact_phone') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
                     </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300">Disponibilidade do Frete (dias)</label>
+                        <div class="mt-1 flex gap-2">
+                            <select wire:model.live="edit_available_days_type" class="block w-full rounded-md border-slate-700 bg-slate-950 text-slate-100" required>
+                                <option value="2">2 Dias</option>
+                                <option value="7">7 Dias</option>
+                                <option value="other">Outros</option>
+                            </select>
+                            @if ($edit_available_days_type === 'other')
+                                <input wire:model="edit_other_available_days" type="number" min="1" max="30" class="block w-full rounded-md border-slate-700 bg-slate-950 text-slate-100" placeholder="Qtd" required>
+                            @endif
+                        </div>
+                        @error('edit_available_days_type') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
+                        @error('edit_other_available_days') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
+                    </div>
+
                     <div>
                         <label class="block text-sm font-medium text-slate-300">Detalhes / Observacoes</label>
                         <textarea wire:model="edit_details" rows="3" class="mt-1 block w-full rounded-md border-slate-700 bg-slate-950 text-slate-100"></textarea>

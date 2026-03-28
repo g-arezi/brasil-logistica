@@ -38,6 +38,8 @@ class FreightBoard extends Component
     public string $edit_other_vehicle_type = '';
     public string $edit_details = '';
     public string $edit_contact_phone = '';
+    public string $edit_available_days_type = '2';
+    public string $edit_other_available_days = '';
 
     /**
      * @var list<string>
@@ -104,6 +106,17 @@ class FreightBoard extends Component
                 $this->edit_required_vehicle_type = $freight->required_vehicle_type->value;
                 $this->edit_details = $freight->details ?? '';
                 $this->edit_contact_phone = $freight->contact_phone ?? '';
+
+                $days = $freight->available_days ?? 2;
+                if ($days === 2) {
+                    $this->edit_available_days_type = '2';
+                } elseif ($days === 7) {
+                    $this->edit_available_days_type = '7';
+                } else {
+                    $this->edit_available_days_type = 'other';
+                    $this->edit_other_available_days = (string) $days;
+                }
+
                 $this->showingEdit = true;
             } else {
                 session()->flash('error', 'Sem permissao para editar este frete.');
@@ -124,7 +137,16 @@ class FreightBoard extends Component
                 'edit_other_vehicle_type' => 'nullable|string|max:255',
                 'edit_details' => 'nullable|string',
                 'edit_contact_phone' => 'required|string|max:20',
+                'edit_available_days_type' => 'required|string|in:2,7,other',
+                'edit_other_available_days' => 'nullable|numeric|min:1|max:30',
             ]);
+
+            $days = 2;
+            if ($this->edit_available_days_type === '7') {
+                $days = 7;
+            } elseif ($this->edit_available_days_type === 'other' && is_numeric($this->edit_other_available_days)) {
+                $days = min(30, max(1, (int)$this->edit_other_available_days));
+            }
 
             $details = $this->edit_details;
             if ($this->edit_required_vehicle_type === 'outros' && trim($this->edit_other_vehicle_type) !== '') {
@@ -140,6 +162,8 @@ class FreightBoard extends Component
                 'required_vehicle_type' => VehicleType::from($this->edit_required_vehicle_type),
                 'details' => $details,
                 'contact_phone' => $this->edit_contact_phone,
+                'available_days' => $days,
+                'expires_at' => now()->addDays($days),
             ]);
 
             session()->flash('success', 'Frete atualizado com sucesso!');
