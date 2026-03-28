@@ -3,15 +3,14 @@
 use App\Domains\User\Enums\UserProfileType;
 use App\Http\Controllers\ProfileController;
 use App\Livewire\PostFreight;
+use App\Livewire\FreightBoard;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/fretes', function () {
-    return view('freight-board-page');
-})->name('freights.board');
+Route::get('/fretes', FreightBoard::class)->name('freights.board');
 
 Route::get('/dashboard', function () {
     $user = auth()->user();

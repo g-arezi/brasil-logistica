@@ -225,6 +225,6 @@ class FreightBoard extends Component
             'states' => $states,
             'originCityOptions' => BrazilLocations::citiesByState($this->origin_state),
             'destinationCityOptions' => BrazilLocations::citiesByState($this->destination_state),
-        ]);
+        ])->layout('layouts.app');
     }
 }
