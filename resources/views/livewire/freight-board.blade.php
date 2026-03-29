@@ -126,7 +126,13 @@
                                     {{ strtoupper($freight->required_vehicle_type->value) }}
                                 </span>
                             </td>
-                            <td class="px-5 py-4 font-semibold text-emerald-400">R$ {{ number_format($freight->price_cents / 100, 2, ',', '.') }}</td>
+                            <td class="px-5 py-4 font-semibold text-emerald-400">
+                                @auth
+                                    R$ {{ number_format($freight->price_cents / 100, 2, ',', '.') }}
+                                @else
+                                    <span class="text-xs text-slate-500 italic">****</span>
+                                @endauth
+                            </td>
                             <td class="px-5 py-4 text-slate-300 flex items-center gap-2">
                                 <button type="button" wire:click="showDetails('{{ $freight->id }}')" class="inline-flex items-center gap-2 rounded-lg bg-slate-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-slate-600 transition">
                                     Ver Detalhes
@@ -188,7 +194,11 @@
                         </div>
                         <div>
                             <span class="block font-medium text-slate-400">Telefone Contato</span>
-                            <span class="text-slate-100">{{ $selectedFreight->contact_phone ?? 'N/A' }}</span>
+                            @auth
+                                <span class="text-slate-100">{{ $selectedFreight->contact_phone ?? 'N/A' }}</span>
+                            @else
+                                <span class="text-xs text-slate-500 italic">Disponível para usuários logados</span>
+                            @endauth
                         </div>
                         <div>
                             <span class="block font-medium text-slate-400">Veiculo Requerido</span>
@@ -196,7 +206,11 @@
                         </div>
                         <div>
                             <span class="block font-medium text-slate-400">Preco</span>
-                            <span class="text-emerald-400 font-semibold">R$ {{ number_format($selectedFreight->price_cents / 100, 2, ',', '.') }}</span>
+                            @auth
+                                <span class="text-emerald-400 font-semibold">R$ {{ number_format($selectedFreight->price_cents / 100, 2, ',', '.') }}</span>
+                            @else
+                                <span class="text-xs text-slate-500 italic">Disponível para usuários logados</span>
+                            @endauth
                         </div>
                     </div>
 
