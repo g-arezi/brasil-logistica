@@ -28,6 +28,7 @@ use Illuminate\Support\Carbon;
  * @property UserProfileType $profile_type
  * @property string|null $document_number
  * @property Carbon|null $document_verified_at
+ * @property Carbon|null $subscription_expires_at
  */
 class User extends Authenticatable
 {
@@ -47,6 +48,7 @@ class User extends Authenticatable
         'profile_type',
         'document_number',
         'document_verified_at',
+        'subscription_expires_at',
     ];
 
     /**
@@ -68,6 +70,7 @@ class User extends Authenticatable
             'status' => UserStatus::class,
             'profile_type' => UserProfileType::class,
             'document_verified_at' => 'datetime',
+            'subscription_expires_at' => 'datetime',
         ];
     }
 

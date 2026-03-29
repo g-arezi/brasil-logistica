@@ -25,6 +25,7 @@
                     <th class="px-4 py-3 font-semibold">Perfil</th>
                     <th class="px-4 py-3 font-semibold">Documento</th>
                     <th class="px-4 py-3 font-semibold">Status</th>
+                    <th class="px-4 py-3 font-semibold">Plano Expira Em</th>
                     <th class="px-4 py-3 font-semibold">Cadastrado em</th>
                     <th class="px-4 py-3 font-semibold">Acoes</th>
                 </tr>
@@ -53,6 +54,17 @@
                                 </span>
                             @endif
                         </td>
+                        <td class="px-4 py-3 text-xs text-slate-300">
+                            @if ($userItem->profile_type?->value === 'admin')
+                                Vitalicio
+                            @else
+                                {{ $userItem->subscription_expires_at?->format('d/m/Y') ?? 'Expirado' }}
+                                <div class="mt-1 flex gap-1">
+                                    <button wire:click="addSubscriptionDays({{ $userItem->id }}, 15)" class="text-[10px] bg-indigo-600/80 hover:bg-indigo-500 text-white px-1.5 py-0.5 rounded">+15d</button>
+                                    <button wire:click="addSubscriptionDays({{ $userItem->id }}, 30)" class="text-[10px] bg-indigo-600/80 hover:bg-indigo-500 text-white px-1.5 py-0.5 rounded">+30d</button>
+                                </div>
+                            @endif
+                        </td>
                         <td class="px-4 py-3 text-xs text-slate-400">{{ $userItem->created_at?->format('d/m/Y H:i') ?? '-' }}</td>
                         <td class="px-4 py-3">
                             <div class="flex gap-2">
@@ -72,7 +84,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="px-4 py-8 text-center text-slate-400">
+                        <td colspan="7" class="px-4 py-8 text-center text-slate-400">
                             Nenhum usuario encontrado.
                         </td>
                     </tr>

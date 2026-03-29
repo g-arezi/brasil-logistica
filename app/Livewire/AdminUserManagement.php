@@ -116,6 +116,32 @@ class AdminUserManagement extends Component
         }
     }
 
+    public function addSubscriptionDays(int $userId, int $days): void
+    {
+        $user = auth()->user();
+
+        if ($user === null || $user->profile_type->value !== 'admin') {
+            abort(403, 'Apenas administradores podem alterar o status de usuarios.');
+        }
+
+        $targetUser = User::query()->find($userId);
+
+        if ($targetUser === null) {
+            return;
+        }
+
+        $currentExpires = $targetUser->subscription_expires_at ?? now();
+
+        // Se já tiver expirado há muito tempo, adiciona a partir de hoje
+        if ($currentExpires->isPast()) {
+            $targetUser->subscription_expires_at = now()->addDays($days);
+        } else {
+            $targetUser->subscription_expires_at = $currentExpires->addDays($days);
+        }
+
+        $targetUser->save();
+    }
+
     public function render(): View
     {
         $query = User::query()

@@ -38,6 +38,16 @@ final class EnsureUserProfile
             abort(403, 'Sua conta esta pendente de aprovacao. Aguarde a liberacao do administrador.');
         }
 
+        if ($user->profile_type?->value !== 'admin') {
+            if ($user->subscription_expires_at !== null && $user->subscription_expires_at->isPast()) {
+                auth()->logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                abort(403, 'Seu plano expirou. Entre em contato com a administracao para renovar os dias de acesso.');
+            }
+        }
+
         if ($user->profile_type?->value === 'admin') {
             return $next($request);
         }
