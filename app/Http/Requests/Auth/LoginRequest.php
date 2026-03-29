@@ -34,6 +34,11 @@ class LoginRequest extends FormRequest
         return [
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
+            'captcha' => ['required', 'numeric', function ($attribute, $value, $fail) {
+                if ($value != request()->session()->get('math_captcha')) {
+                    $fail('A verificação antispam falhou. Tente novamente.');
+                }
+            }],
         ];
     }
 

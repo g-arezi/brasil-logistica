@@ -34,6 +34,14 @@ Route::get('/dashboard', function () {
     return redirect()->route('driver.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/termos-de-uso', function () {
+    return view('terms-of-use');
+})->name('terms.index');
+
+Route::get('/sobre-nos', function () {
+    return view('about-us');
+})->name('about.index');
+
 Route::middleware(['auth', 'verified', 'profile:admin'])->group(function (): void {
     Route::get('/painel/admin', function () {
         return view('dashboards.admin');

@@ -19,8 +19,11 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('chat.index')" :active="request()->routeIs('chat.index')">
-                        Chat
+                    <x-nav-link :href="route('terms.index')" :active="request()->routeIs('terms.index')">
+                        Termos de Uso
+                    </x-nav-link>
+                    <x-nav-link :href="route('about.index')" :active="request()->routeIs('about.index')">
+                        Sobre Nos
                     </x-nav-link>
                     <x-nav-link :href="route('support.index')" :active="request()->routeIs('support.index')">
                         Suporte
@@ -91,8 +94,11 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('chat.index')" :active="request()->routeIs('chat.index')">
-                Chat
+            <x-responsive-nav-link :href="route('terms.index')" :active="request()->routeIs('terms.index')">
+                Termos de Uso
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('about.index')" :active="request()->routeIs('about.index')">
+                Sobre Nos
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('support.index')" :active="request()->routeIs('support.index')">
                 Suporte

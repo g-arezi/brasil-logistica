@@ -140,9 +140,6 @@
                                             Excluir
                                         </button>
                                     @else
-                                        <a href="{{ route('chat.index', ['freight_id' => $freight->id]) }}" class="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-indigo-500 transition">
-                                            Falar no Chat
-                                        </a>
                                         @if (auth()->user()->profile_type?->value === 'admin')
                                             <button type="button"
                                                 wire:click="deleteFreight('{{ $freight->id }}')"
@@ -150,9 +147,8 @@
                                                 class="inline-flex items-center gap-2 rounded-lg border border-red-500/50 bg-red-500/10 px-3 py-1.5 text-xs font-medium text-red-400 hover:bg-red-500/20 hover:text-red-300 transition">
                                                 Excluir
                                             </button>
-                                        @endif                                    @endif
-                                @else
-                                    <a href="{{ route('login') }}" class="text-xs text-indigo-400 hover:text-indigo-300 underline">Fazer login</a>
+                                        @endif
+                                    @endif
                                 @endauth
                             </td>
                         </tr>
@@ -229,10 +225,6 @@
                                 class="px-4 py-2 rounded-lg bg-red-600/90 text-white font-medium hover:bg-red-600 transition">
                                 Excluir Frete
                             </button>
-                        @else
-                            <a href="{{ route('chat.index', ['freight_id' => $selectedFreight->id]) }}" class="px-4 py-2 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-500 transition">
-                                 Chat
-                            </a>
                         @endif
                     @else
                         <a href="{{ route('login') }}" class="px-4 py-2 rounded-lg bg-slate-700 text-white font-medium hover:bg-slate-600 transition">

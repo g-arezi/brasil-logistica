@@ -3,13 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>BrasilLogistica</title>
+    <title>Brasil Logistica</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-slate-950 text-slate-100">
     <div class="mx-auto max-w-7xl px-6 py-8">
         <header class="flex flex-wrap items-center justify-between gap-3">
-            <a href="{{ route('home') }}" class="text-lg font-semibold">BrasilLogistica</a>
+            <a href="{{ route('home') }}" class="text-lg font-semibold">Brasil Logistica</a>
             <nav class="flex items-center gap-2">
                 @auth
                     <a href="{{ route('dashboard') }}" class="rounded-md bg-indigo-600 px-3 py-2 text-sm hover:bg-indigo-500">Dashboard</a>

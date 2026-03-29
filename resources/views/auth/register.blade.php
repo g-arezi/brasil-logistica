@@ -60,6 +60,18 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
+        <!-- Captcha -->
+        <div class="mt-4">
+            <x-input-label for="captcha" :value="'Para continuar, quanto é ' . $num1 . ' + ' . $num2 . ' ?'" />
+
+            <x-text-input id="captcha" class="block mt-1 w-full border-slate-700 bg-slate-950 text-slate-100"
+                            type="number"
+                            name="captcha"
+                            required />
+
+            <x-input-error :messages="$errors->get('captcha')" class="mt-2" />
+        </div>
+
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-slate-300 hover:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
                 {{ __('Ja possui cadastro?') }}

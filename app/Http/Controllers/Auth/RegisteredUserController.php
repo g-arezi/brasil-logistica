@@ -23,7 +23,11 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $num1 = rand(1, 9);
+        $num2 = rand(1, 9);
+        request()->session()->put('math_captcha', $num1 + $num2);
+
+        return view('auth.register', compact('num1', 'num2'));
     }
 
     /**
@@ -39,6 +43,11 @@ class RegisteredUserController extends Controller
             'profile_type' => ['required', 'in:driver,transportadora,agenciador'],
             'document_number' => ['required', 'string', 'max:18', 'unique:'.User::class.',document_number'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'captcha' => ['required', 'numeric', function ($attribute, $value, $fail) {
+                if ($value != request()->session()->get('math_captcha')) {
+                    $fail('A verificação antispam falhou. Tente novamente.');
+                }
+            }],
         ]);
 
         $profileType = UserProfileType::from((string) $request->string('profile_type'));
