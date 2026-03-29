@@ -33,6 +33,10 @@ class AdminUserManagement extends Component
 
     public string $newDocumentNumber = '';
 
+    public bool $showViewModal = false;
+
+    public ?User $selectedUser = null;
+
     public function rules()
     {
         return [
@@ -140,6 +144,54 @@ class AdminUserManagement extends Component
         }
 
         $targetUser->save();
+    }
+
+    public function viewUser(int $userId): void
+    {
+        $user = auth()->user();
+
+        if ($user === null || $user->profile_type->value !== 'admin') {
+            abort(403, 'Acesso negado.');
+        }
+
+        $this->selectedUser = User::find($userId);
+        if ($this->selectedUser) {
+            $this->showViewModal = true;
+        }
+    }
+
+    public function closeViewModal(): void
+    {
+        $this->showViewModal = false;
+        $this->selectedUser = null;
+    }
+
+    public function deleteUser(int $userId): void
+    {
+        $user = auth()->user();
+
+        if ($user === null || $user->profile_type->value !== 'admin') {
+            abort(403, 'Apenas administradores podem excluir usuarios.');
+        }
+
+        $targetUser = User::find($userId);
+
+        if ($targetUser === null) {
+            return;
+        }
+
+        if ($targetUser->id === $user->id || $targetUser->email === 'admin@demo.com') {
+            // Prevenir excluir o próprio usuário ou o superadmin principal
+            return;
+        }
+
+        // Tentar excluir dependências ou deixar cascade DB hand-lo (Dependendo de foreign keys)
+        // Aqui apenas deletamos o usuário, ou podemos inativá-lo
+        $targetUser->delete();
+
+        if ($this->selectedUser && $this->selectedUser->id === $userId) {
+            $this->closeViewModal();
+        }
     }
 
     public function render(): View

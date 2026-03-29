@@ -68,6 +68,8 @@
                         <td class="px-4 py-3 text-xs text-slate-400">{{ $userItem->created_at?->format('d/m/Y H:i') ?? '-' }}</td>
                         <td class="px-4 py-3">
                             <div class="flex gap-2">
+                                <button wire:click="viewUser({{ $userItem->id }})" type="button" class="rounded bg-indigo-600/90 px-3 py-1.5 text-xs font-medium text-white hover:bg-indigo-500 transition-colors">Ver</button>
+
                                 @if (($userItem->status?->value ?? $userItem->status) !== 'approved')
                                     <button wire:click="updateStatus({{ $userItem->id }}, 'approved')" type="button" class="rounded bg-emerald-600/90 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-500 transition-colors">Aprovar</button>
                                 @endif
@@ -79,6 +81,8 @@
                                 @if (($userItem->status?->value ?? $userItem->status) !== 'pending')
                                     <button wire:click="updateStatus({{ $userItem->id }}, 'pending')" type="button" class="rounded bg-slate-700 px-3 py-1.5 text-xs font-medium text-slate-200 hover:bg-slate-600 transition-colors">Pendente</button>
                                 @endif
+
+                                <button wire:click="deleteUser({{ $userItem->id }})" wire:confirm="Tem certeza que deseja excluir esta conta permanentemente?" type="button" class="rounded border border-red-500/50 bg-red-500/10 px-3 py-1.5 text-xs font-medium text-red-500 hover:bg-red-500/20 transition-colors ml-2">Excluir</button>
                             </div>
                         </td>
                     </tr>
@@ -144,6 +148,74 @@
                         <button type="submit" class="rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-500">Salvar Usuario</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    @endif
+
+    @if($showViewModal && $selectedUser)
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+            <div class="w-full max-w-lg rounded-lg bg-slate-800 p-6 shadow-xl border border-slate-700">
+                <div class="flex justify-between items-center mb-6">
+                    <h4 class="text-xl font-bold text-slate-100">Detalhes do Usuario</h4>
+                    <button wire:click="closeViewModal" class="text-slate-400 hover:text-white transition">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="space-y-4 text-sm">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-slate-900 border border-slate-700 p-3 rounded">
+                            <span class="block text-xs font-medium text-slate-400 mb-1">Nome Completo</span>
+                            <span class="text-white">{{ $selectedUser->name }}</span>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-700 p-3 rounded">
+                            <span class="block text-xs font-medium text-slate-400 mb-1">E-mail</span>
+                            <span class="text-white truncate">{{ $selectedUser->email }}</span>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-700 p-3 rounded">
+                            <span class="block text-xs font-medium text-slate-400 mb-1">CPF / CNPJ</span>
+                            <span class="text-white">{{ $selectedUser->document_number ?? 'Não informado' }}</span>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-700 p-3 rounded">
+                            <span class="block text-xs font-medium text-slate-400 mb-1">Tipo de Perfil</span>
+                            <span class="text-white uppercase">{{ $selectedUser->profile_type?->value ?? 'N/A' }}</span>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-700 p-3 rounded">
+                            <span class="block text-xs font-medium text-slate-400 mb-1">Status da Conta</span>
+                            <span class="text-white uppercase">{{ $selectedUser->status?->value ?? 'N/A' }}</span>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-700 p-3 rounded">
+                            <span class="block text-xs font-medium text-slate-400 mb-1">Data de Cadastro</span>
+                            <span class="text-white">{{ $selectedUser->created_at?->format('d/m/Y H:i') ?? 'N/A' }}</span>
+                        </div>
+                        <div class="col-span-2 bg-slate-900 border border-slate-700 p-3 rounded">
+                            <span class="block text-xs font-medium text-slate-400 mb-1">Validade do Plano</span>
+                            <span class="text-white font-medium">
+                                @if($selectedUser->profile_type?->value === 'admin')
+                                    Conta Vitalícia (Administrador)
+                                @else
+                                    {{ $selectedUser->subscription_expires_at ? $selectedUser->subscription_expires_at->format('d/m/Y \à\s H:i') : 'Não definido/Expirado' }}
+                                    @if($selectedUser->subscription_expires_at && $selectedUser->subscription_expires_at->isFuture())
+                                        <span class="text-emerald-400 ml-2">({{ max(0, (int) ceil(now()->floatDiffInDays($selectedUser->subscription_expires_at, false))) }} dias restantes)</span>
+                                    @else
+                                        <span class="text-rose-400 ml-2">(Expirado)</span>
+                                    @endif
+                                @endif
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-slate-700">
+                    <button wire:click="deleteUser({{ $selectedUser->id }})" wire:confirm="Isso apagará essa conta de forma permanente. Tem certeza?" type="button" class="rounded-md bg-red-600/90 px-4 py-2 text-sm font-semibold text-white hover:bg-red-500">
+                        Excluir Conta
+                    </button>
+                    <button type="button" wire:click="closeViewModal" class="rounded-md bg-slate-700 px-4 py-2 text-sm font-semibold text-slate-200 hover:bg-slate-600">
+                        Fechar
+                    </button>
+                </div>
             </div>
         </div>
     @endif
