@@ -10,4 +10,3 @@ enum UserStatus: string
     case Approved = 'approved';
     case Rejected = 'rejected';
 }
-

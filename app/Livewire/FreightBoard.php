@@ -19,26 +19,43 @@ class FreightBoard extends Component
     use WithPagination;
 
     public ?string $origin_state = null;
+
     public ?string $origin_city = null;
+
     public ?string $destination_state = null;
+
     public ?string $destination_city = null;
+
     public ?string $search = null;
 
     public ?Freight $selectedFreight = null;
+
     public bool $showingDetails = false;
 
     public bool $showingEdit = false;
+
     public ?Freight $editingFreight = null;
+
     public string $edit_origin_city = '';
+
     public string $edit_origin_state = '';
+
     public string $edit_destination_city = '';
+
     public string $edit_destination_state = '';
+
     public float $edit_price = 0.0;
+
     public string $edit_required_vehicle_type = '';
+
     public string $edit_other_vehicle_type = '';
+
     public string $edit_details = '';
+
     public string $edit_contact_phone = '';
+
     public string $edit_available_days_type = '2';
+
     public string $edit_other_available_days = '';
 
     /**
@@ -145,13 +162,13 @@ class FreightBoard extends Component
             if ($this->edit_available_days_type === '7') {
                 $days = 7;
             } elseif ($this->edit_available_days_type === 'other' && is_numeric($this->edit_other_available_days)) {
-                $days = min(30, max(1, (int)$this->edit_other_available_days));
+                $days = min(30, max(1, (int) $this->edit_other_available_days));
             }
 
             $details = $this->edit_details;
             if ($this->edit_required_vehicle_type === 'outros' && trim($this->edit_other_vehicle_type) !== '') {
-                $append = "Veiculo Especifico: " . trim($this->edit_other_vehicle_type);
-                $details = $details ? $append . "\n\n" . $details : $append;
+                $append = 'Veiculo Especifico: '.trim($this->edit_other_vehicle_type);
+                $details = $details ? $append."\n\n".$details : $append;
             }
             $this->editingFreight->update([
                 'origin_city' => $this->edit_origin_city,

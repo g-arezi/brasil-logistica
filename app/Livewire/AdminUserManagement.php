@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
-use App\Domains\User\Enums\UserStatus;
 use App\Domains\User\Enums\UserProfileType;
+use App\Domains\User\Enums\UserStatus;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -202,9 +201,9 @@ class AdminUserManagement extends Component
 
         if ($this->search !== '') {
             $query->where(function ($q) {
-                $q->where('name', 'ilike', '%' . $this->search . '%')
-                  ->orWhere('email', 'ilike', '%' . $this->search . '%')
-                  ->orWhere('document_number', 'ilike', '%' . $this->search . '%');
+                $q->where('name', 'ilike', '%'.$this->search.'%')
+                    ->orWhere('email', 'ilike', '%'.$this->search.'%')
+                    ->orWhere('document_number', 'ilike', '%'.$this->search.'%');
             });
         }
 

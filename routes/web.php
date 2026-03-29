@@ -2,8 +2,8 @@
 
 use App\Domains\User\Enums\UserProfileType;
 use App\Http\Controllers\ProfileController;
-use App\Livewire\PostFreight;
 use App\Livewire\FreightBoard;
+use App\Livewire\PostFreight;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {

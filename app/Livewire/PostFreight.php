@@ -1,21 +1,34 @@
 <?php
+
 namespace App\Livewire;
+
 use App\Domains\Freight\Enums\FreightStatus;
 use App\Domains\Freight\Models\Freight;
 use App\Domains\Vehicle\Enums\VehicleType;
 use Livewire\Component;
+
 class PostFreight extends Component
 {
     public string $origin_city = '';
+
     public string $origin_state = '';
+
     public string $destination_city = '';
+
     public string $destination_state = '';
+
     public string $required_vehicle_type = '';
+
     public string $other_vehicle_type = '';
+
     public float $price = 0.0;
+
     public string $details = '';
+
     public string $contact_phone = '';
+
     public string $available_days_type = '2';
+
     public string $other_available_days = '';
 
     protected function rules()
@@ -44,12 +57,12 @@ class PostFreight extends Component
         if ($this->available_days_type === '7') {
             $days = 7;
         } elseif ($this->available_days_type === 'other' && is_numeric($this->other_available_days)) {
-            $days = min(30, max(1, (int)$this->other_available_days));
+            $days = min(30, max(1, (int) $this->other_available_days));
         }
 
         if ($this->required_vehicle_type === 'outros' && trim($this->other_vehicle_type) !== '') {
-            $append = "Veiculo Especifico: " . trim($this->other_vehicle_type);
-            $this->details = $this->details ? $append . "\n\n" . $this->details : $append;
+            $append = 'Veiculo Especifico: '.trim($this->other_vehicle_type);
+            $this->details = $this->details ? $append."\n\n".$this->details : $append;
         }
         $payload = [
             'company_id' => auth()->id(),
@@ -82,8 +95,10 @@ class PostFreight extends Component
         }
         Freight::create($payload);
         session()->flash('success', 'Frete publicado com sucesso!');
+
         return redirect()->route('freights.board');
     }
+
     public function render()
     {
         return view('livewire.post-freight', [
