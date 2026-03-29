@@ -34,15 +34,16 @@
             <section class="rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-2xl shadow-cyan-900/20">
                 <h2 class="text-xl font-semibold">Perfis suportados:</h2>
                 <ul class="mt-4 space-y-2 text-sm text-slate-300">
+                    <li><span class="font-semibold text-slate-100">Transportadora/Empresa/Agenciador(a)</span> Publicação e gestão de cargas.</li>
                     <li><span class="font-semibold text-slate-100">Motorista:</span> busca e candidatura em fretes.</li>
-                    <li><span class="font-semibold text-slate-100">Transportadora:</span> Publicação e gestão de cargas.</li>
-                    <li><span class="font-semibold text-slate-100">Agenciador:</span> intermediar oportunidades e operacao.</li>
+
+
 
                 <h2 class="text-xl font-semibold mt-6">Funcionalidades principais:</h2>
+
                 <ul class="mt-4 space-y-2 text-sm text-slate-300">
                     <li><span class="font-semibold text-slate-100">Board de Fretes:</span> Listagem e filtro de oportunidades.</li>
                     <li><span class="font-semibold text-slate-100">Dashboard personalizado:</span> Gerenciamento de perfil e atividades.</li>
-                    <li><span class="font-semibold text-slate-100">Sistema de mensagens:</span> Comunicacao direta entre usuarios.</li>
                     <li><span class="font-semibold text-slate-100">Avaliações e feedback:</span> Construcao de reputacao confiavel.</li>
                 </ul>
                 </ul>
