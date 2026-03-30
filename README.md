@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="public/images/Logo.png" alt="Brasil Logistica Logo" width="250">
+</p>
+
 # Brasil Logistica
 
 Sistema moderno e escalavel focado em conectar Empresas, Transportadoras, Agenciadores e Motoristas de todo o Brasil para negociacao e gestao de fretes.
