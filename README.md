@@ -123,7 +123,7 @@ Nesse momento o app estara exposto na sua porta local mapeada **https://localhos
 > 
 > Para isso, apenas 2 passos são necessários antes de rodar o repositório na VPS:
 > 
-> 1. No arquivo `docker-compose.yml`, altere o comando do serviço `web`:
+> 1. No arquivo `docker-compose.yml`, altere o comando do servio `web`:
 > ```yaml
 > command: caddy reverse-proxy --from https://seu-dominio.com.br --to http://app:8000
 > ```
@@ -131,7 +131,12 @@ Nesse momento o app estara exposto na sua porta local mapeada **https://localhos
 > ```env
 > APP_URL=https://seu-dominio.com.br
 > ```
-> Garanta que os registros de DNS do seu domínio estão apontando para o IP público da sua VPS e rode `docker-compose up -d`. O servidor web fará o resto!
+> Garanta que os registros de DNS do seu domnio esto apontando para o IP pblico da sua VPS e rode `docker-compose up -d`. O servidor web far o resto!
+
+## 🚀 Posso rodar esse projeto no Vercel utilizando Docker?
+Sim e não. O Vercel é focado nativamente em Serverless Functions (para Next.js, Nuxt, etc.) e **não suporta Docker diretamente** de forma tradicional (com banco de dados, Redis e filas em background) na plataforma principal.
+No entanto, caso você queira fazer o deploy da aplicação Laravel apenas como API ou rodar PHP no Vercel, isso é possível utilizando bibliotecas como o `vercel-php`, mas perderá suporte a features de background workers, websockets e containers de banco de dados.
+A **recomendação ideal** para projetos complexos com banco, filas e Redis é utilizar uma VPS comum (DigitalOcean, AWS EC2, Hetzner, etc.) e rodar via Docker como configurado acima.
 
 ## 🔒 Testes Automaticos
 A plataforma conta com a suite de testes Pest:

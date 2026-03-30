@@ -85,10 +85,14 @@ Route::middleware(['auth', 'verified', 'profile:transportadora,agenciador,compan
     Route::get('/fretes/novo', PostFreight::class)->name('freights.create');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Assinaturas
+    Route::get('/checkout/assinatura', [\App\Http\Controllers\SubscriptionController::class, 'checkout'])->name('subscription.checkout');
+    Route::get('/checkout/assinatura/success', [\App\Http\Controllers\SubscriptionController::class, 'success'])->name('subscription.success');
 });
 
 require __DIR__.'/auth.php';

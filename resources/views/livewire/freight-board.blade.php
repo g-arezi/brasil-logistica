@@ -10,9 +10,15 @@
 
                     @auth
                         @if (in_array(auth()->user()->profile_type?->value, ['transportadora', 'agenciador', 'company', 'freightista', 'admin']))
-                            <a href="{{ route('freights.create') }}" class="inline-flex items-center rounded-lg bg-cyan-600 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-cyan-900/50 hover:bg-cyan-500 transition">
-                                + Postar Novo Frete
-                            </a>
+                            @if(auth()->user()->profile_type?->value === 'admin' || auth()->user()->is_exempt_from_subscription || (auth()->user()->subscription_expires_at && auth()->user()->subscription_expires_at->isFuture()))
+                                <a href="{{ route('freights.create') }}" class="inline-flex items-center rounded-lg bg-cyan-600 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-cyan-900/50 hover:bg-cyan-500 transition">
+                                    + Postar Novo Frete
+                                </a>
+                            @else
+                                <button onclick="alert('Sua assinatura está pendente ou expirada. Pague a mensalidade na sua Dashboard para postar fretes.')" class="inline-flex items-center rounded-lg bg-slate-600 px-4 py-2 text-sm font-medium text-slate-300 shadow-md cursor-not-allowed cursor-pointer opacity-75">
+                                    + Postar Novo Frete
+                                </button>
+                            @endif
                         @endif
                     @endauth
                 </div>

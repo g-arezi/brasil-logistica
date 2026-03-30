@@ -31,6 +31,8 @@ _ide_helper_models.php
 .DS_Store
 Thumbs.db
 ehthumbs.db
+# test files
+/tests
 
 # Custom specific logs and scripts
 Orientador.md

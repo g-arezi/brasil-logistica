@@ -7,6 +7,18 @@
 
     <div class="py-8">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-6">
+            @if(session('error'))
+                <div class="bg-red-600/90 text-white p-4 rounded-lg shadow mb-6">
+                    <p class="font-medium">Erro: {{ session('error') }}</p>
+                </div>
+            @endif
+
+            @if(session('success'))
+                <div class="bg-emerald-600/90 text-white p-4 rounded-lg shadow mb-6">
+                    <p class="font-medium">Sucesso: {{ session('success') }}</p>
+                </div>
+            @endif
+            @include('partials.subscription-notice')
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Informações do Plano -->
                 <div class="rounded-lg bg-slate-900 border border-slate-800 text-slate-100 p-6 shadow-sm">

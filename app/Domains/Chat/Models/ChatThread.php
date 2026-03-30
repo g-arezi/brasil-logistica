@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domains\Chat\Models;
 
-use App\Domains\Chat\Enums\ChatThreadStatus;
+use App\Domains\Chat\Enums\Enums\ChatThreadStatus;
 use App\Domains\User\Models\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

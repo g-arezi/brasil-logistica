@@ -50,6 +50,16 @@ class PostFreight extends Component
 
     public function save()
     {
+        $user = auth()->user();
+
+        // Bloqueio de assinatura: não podem publicar caso não sejam admins, ou não sejam isentos, e a assinatura esteja expirada
+        if ($user->profile_type->value !== 'admin' && !$user->is_exempt_from_subscription) {
+            if (!$user->subscription_expires_at || $user->subscription_expires_at->isPast()) {
+                session()->flash('error', 'Sua assinatura está pendente ou inspirada. Realize o pagamento para postar um frete.');
+                return redirect()->route('dashboard');
+            }
+        }
+
         $this->validate();
 
         // Calculate days

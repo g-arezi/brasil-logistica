@@ -18,6 +18,7 @@ class User extends DomainUser
         'document_number',
         'status',
         'subscription_expires_at',
+        'is_exempt_from_subscription',
     ];
 
     /**
@@ -43,6 +44,7 @@ class User extends DomainUser
             'profile_type' => UserProfileType::class,
             'status' => UserStatus::class,
             'subscription_expires_at' => 'datetime',
+            'is_exempt_from_subscription' => 'boolean',
         ];
     }
 }

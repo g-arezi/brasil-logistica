@@ -58,10 +58,24 @@
                             @if ($userItem->profile_type?->value === 'admin')
                                 Vitalicio
                             @else
-                                {{ $userItem->subscription_expires_at?->format('d/m/Y') ?? 'Expirado' }}
-                                <div class="mt-1 flex gap-1">
+                                @if($userItem->is_exempt_from_subscription)
+                                    <span class="text-blue-400 font-semibold">Isento</span>
+                                @else
+                                    {{ $userItem->subscription_expires_at?->format('d/m/Y') ?? 'Expirado' }}
+                                    @if($userItem->subscription_expires_at && $userItem->subscription_expires_at->isFuture())
+                                        <button wire:click="expireSubscription({{ $userItem->id }})" title="Expirar Agora" class="ml-1 text-red-500 hover:text-red-400">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3 h-3 inline">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
+                                    @endif
+                                @endif
+                                <div class="mt-1 flex gap-1 items-center flex-wrap">
                                     <button wire:click="addSubscriptionDays({{ $userItem->id }}, 15)" class="text-[10px] bg-indigo-600/80 hover:bg-indigo-500 text-white px-1.5 py-0.5 rounded">+15d</button>
                                     <button wire:click="addSubscriptionDays({{ $userItem->id }}, 30)" class="text-[10px] bg-indigo-600/80 hover:bg-indigo-500 text-white px-1.5 py-0.5 rounded">+30d</button>
+                                    <button wire:click="toggleSubscriptionExemption({{ $userItem->id }})" class="text-[10px] {{ $userItem->is_exempt_from_subscription ? 'bg-amber-600/80 hover:bg-amber-500' : 'bg-blue-600/80 hover:bg-blue-500' }} text-white px-1.5 py-0.5 rounded">
+                                        {{ $userItem->is_exempt_from_subscription ? 'Remover Isenção' : 'Isentar' }}
+                                    </button>
                                 </div>
                             @endif
                         </td>
@@ -82,7 +96,13 @@
                                     <button wire:click="updateStatus({{ $userItem->id }}, 'pending')" type="button" class="rounded bg-slate-700 px-3 py-1.5 text-xs font-medium text-slate-200 hover:bg-slate-600 transition-colors">Pendente</button>
                                 @endif
 
-                                <button wire:click="deleteUser({{ $userItem->id }})" wire:confirm="Tem certeza que deseja excluir esta conta permanentemente?" type="button" class="rounded border border-red-500/50 bg-red-500/10 px-3 py-1.5 text-xs font-medium text-red-500 hover:bg-red-500/20 transition-colors ml-2">Excluir</button>
+                                @if($userItem->profile_type?->value !== 'admin' && !$userItem->is_exempt_from_subscription)
+                                    @if($userItem->subscription_expires_at && $userItem->subscription_expires_at->isFuture())
+                                        <button wire:click="expireSubscription({{ $userItem->id }})" title="Expirar Conta Imediatamente" type="button" class="rounded bg-orange-600/90 px-3 py-1.5 text-xs font-medium text-white hover:bg-orange-500 transition-colors ml-2">Expirar Plano</button>
+                                    @endif
+                                @endif
+
+                                <button wire:click="deleteUser({{ $userItem->id }})" wire:confirm="Tem certeza que deseja excluir esta conta permanentemente?" type="button" class="rounded border border-red-500/50 bg-red-500/10 px-3 py-1.5 text-xs font-medium text-red-500 hover:bg-red-500/20 transition-colors ml-2">Excluir Base</button>
                             </div>
                         </td>
                     </tr>

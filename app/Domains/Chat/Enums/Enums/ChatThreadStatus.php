@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domains\Chat\Enums;
+namespace App\Domains\Chat\Enums\Enums;
 
 enum ChatThreadStatus: string
 {
