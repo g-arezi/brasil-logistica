@@ -20,6 +20,21 @@ services:
       - "8000:8000"
     command: php artisan serve --host=0.0.0.0 --port=8000
 
+  web:
+    image: caddy:alpine
+    container_name: brasil_logistica_web
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    command: caddy reverse-proxy --from https://localhost --to http://app:8000
+    depends_on:
+      - app
+
   reverb:
     build:
       context: .
@@ -83,4 +98,5 @@ services:
 volumes:
   postgres_data:
   redis_data:
-
+  caddy_data:
+  caddy_config:

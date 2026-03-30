@@ -109,7 +109,25 @@ docker-compose exec app php artisan migrate:fresh --seed
 npm install && npm run build
 ```
 
-Nesse momento o app estara exposto na sua porta local mapeada **http://localhost:8000** com o websocket funcionando internamente na 8080.
+Nesse momento o app estara exposto na sua porta local mapeada **https://localhost** com o websocket funcionando internamente na 8080.
+
+> **Aviso de "Conexão Insegura" no Localhost:** O uso de `https` no ambiente de desenvolvimento com o Docker aciona o servidor web Caddy que, por não conseguir emitir certificados oficiais para `localhost`, assina o seu próprio certificado. Isso gerará um aviso em seu navegador (ex: "A conexão não é segura"). Basta avançar/ignorar o aviso para abrir a aplicação normalmente.
+>
+> ### 🌍 Publicando em uma VPS (Produção com HTTPS Oficial)
+> 
+> Na hora de hospedar seu projeto e vinculá-lo a um **domínio real** (ex: `seu-site.com.br`), o próprio Caddy emitirá o certificado SSL automaticamente e gratuitamente através da Let's Encrypt, e **o aviso de segurança sumirá (Cadeado Verde)**.
+> 
+> Para isso, apenas 2 passos são necessários antes de rodar o repositório na VPS:
+> 
+> 1. No arquivo `docker-compose.yml`, altere o comando do serviço `web`:
+> ```yaml
+> command: caddy reverse-proxy --from https://seu-dominio.com.br --to http://app:8000
+> ```
+> 2. No arquivo `.env`, altere o `APP_URL`:
+> ```env
+> APP_URL=https://seu-dominio.com.br
+> ```
+> Garanta que os registros de DNS do seu domínio estão apontando para o IP público da sua VPS e rode `docker-compose up -d`. O servidor web fará o resto!
 
 ## 🔒 Testes Automaticos
 A plataforma conta com a suite de testes Pest:
